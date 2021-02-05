@@ -18,7 +18,7 @@ CREATE TABLE orders (
   order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   is_ready BOOLEAN DEFAULT false,
   is_pickedup BOOLEAN DEFAULT false,
-  order_date DATE NOT null
+  order_date DATE DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -38,3 +38,4 @@ CREATE TABLE orders_content (
   orders_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
   menu_item_id INTEGER REFERENCES menu_items(id) ON DELETE CASCADE
 );
+
