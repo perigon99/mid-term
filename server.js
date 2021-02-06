@@ -14,7 +14,26 @@ const morgan     = require('morgan');
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
-db.connect();
+db.connect((err) => {
+  if (err) throw new Error(err);
+  console.log('connected!');
+});
+
+const pool = new Pool({
+  user: 'labber',
+  password: 'labber',
+  host: 'localhost',
+  database: 'midterm'
+});
+
+// app.use(bodyParser.urlencoded({extended: true}));
+
+
+
+
+
+
+// const toggleModal = require('scriptstwo.js');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -47,6 +66,10 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
+
+
+
+
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -56,11 +79,23 @@ app.get("/login", (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
-  res.send(`Username: ${username} Password: ${password}`);
+  console.log(req.body);
+  return pool.query(
+    `
+  SELECT id, name
+  FROM users WHERE email = $1 AND password = $2`, [req.body.email, req.body.password] )
 
-});
+  .then(res => console.log("testing of the response object", res.rows[0]))
+
+  .catch(err => console.log('error', err.stack))
+
+
+  // let email = req.body.username;
+  // let password = req.body.password;
+  // res.send(`Username: ${email} Password: ${password}`);
+}
+
+);
 
 
 app.listen(PORT, () => {
