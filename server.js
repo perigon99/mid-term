@@ -29,10 +29,6 @@ const pool = new Pool({
 // app.use(bodyParser.urlencoded({extended: true}));
 
 
-
-
-
-
 // const toggleModal = require('scriptstwo.js');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -80,22 +76,21 @@ app.get("/login", (req, res) => {
 
 app.post('/login', (req, res) => {
   console.log(req.body);
-  return pool.query(
+
+  pool.query(
     `
   SELECT id, name
-  FROM users WHERE email = $1 AND password = $2`, [req.body.email, req.body.password] )
-
-  .then(res => console.log("testing of the response object", res.rows[0]))
-
+  FROM users WHERE email = $1 AND password = $2`, [req.body.email.toLowerCase(), req.body.password]
+  )
+  .then((result)=>{
+    if (result.rows[0]) {
+      res.json({result: true});
+    } else {
+      res.json({result: false})
+    }
+  })
   .catch(err => console.log('error', err.stack))
-
-
-  // let email = req.body.username;
-  // let password = req.body.password;
-  // res.send(`Username: ${email} Password: ${password}`);
-}
-
-);
+});
 
 
 app.listen(PORT, () => {

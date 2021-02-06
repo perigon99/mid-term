@@ -65,10 +65,25 @@ $(document).ready(function () {
       url: `http://localhost:4567/login`,
       method: 'POST',
       data: formContent,
+      success: function(result){
+        console.log("everything went well. ", result);
+        if(result.result){
+          //do whatever you want
+          alert("The user is authenticated");
+          toggleModal();
+        } else{
+          //user is not authenticated
+          alert("user / password is not correct");
+
+        }
+      },
+      error: function(error){
+
+      }
     })
-      .done(() => console.log('Its working!'))
-      .fail(() => console.log('Error'))
-      .always(() => console.log('Request Completed'));
+      // .done(() => console.log('Its working!'))
+      // .fail(() => console.log('Error'))
+      // .always(() => console.log('Request Completed'));
 
 
   });
