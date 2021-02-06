@@ -9,6 +9,7 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT null,
   created_at DATE DEFAULT CURRENT_TIMESTAMP,
+  telephone VARCHAR(255),
   is_admin BOOLEAN default false
 );
 
