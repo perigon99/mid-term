@@ -35,6 +35,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+const { response } = require('express');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -50,6 +51,20 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.post('/login', (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
+  res.send(`Username: ${username} Password: ${password}`);
+
+});
+
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
+
+
