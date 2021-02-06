@@ -1,7 +1,18 @@
+<%- include('./header.ejs') %>
+<div class="container mx-auto bg-gray-600 p-5">
+  <nav class="flex justify-between">
+  <div><a><img width="75" height="75" src="./images/logo_size.jpg" alt=""></a></div>
+  <ul class="flex flex-row" id="navbar">
 
-  <%- include('./header.ejs') %>
-  <%- include('./navbar.ejs') %>
-  <body>
-    <h1>Hello World!</h1>
-  </body>
+  </ul>
+</nav>
+</div>
+<body>
+  <!-- Target in app.js for body content -->
+  <div class="bodyContent"></div>
+  <!-- Target in app.js for bottom cart content -->
+  <div class="cartElement"></div>
+  <!-- Target in app.js for bottom status bar -->
+  <div class="bottomBar"></div>
+</body>
 </html>
