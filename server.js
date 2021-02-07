@@ -84,15 +84,10 @@ app.get("/", (req, res) => {
 
   res.render("index")
 });
-pool.query("SELECT * from menu_items", (err, res) => {
-  console.log(err, res);
-  pool.end();
-});
+
 app.get("/menu", (req,res) => {
-  pool.query("SELECT * from menu_items", (err, res) => {
-    console.log(err, res);
-    pool.end();
-  });
+  res.send(getUsers(req, res))
+
 
 })
 
@@ -103,21 +98,22 @@ app.get("/login", (req, res) => {
 
 app.post('/login', (req, res) => {
   console.log(req.body);
-
-  pool.query(
+  return pool.query(
     `
   SELECT id, name
-  FROM users WHERE email = $1 AND password = $2`, [req.body.email.toLowerCase(), req.body.password]
-  )
-  .then((result)=>{
-    if (result.rows[0]) {
-      res.json({result: true});
-    } else {
-      res.json({result: false})
-    }
-  })
+  FROM users WHERE email = $1 AND password = $2`, [req.body.email, req.body.password] )
+
+  .then(res => console.log("testing of the response object", res.rows[0]))
+
   .catch(err => console.log('error', err.stack))
-});
+
+
+  // let email = req.body.username;
+  // let password = req.body.password;
+  // res.send(`Username: ${email} Password: ${password}`);
+}
+
+);
 
 
 app.listen(PORT, () => {
