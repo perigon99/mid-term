@@ -17,8 +17,19 @@ const addUser = (user) => {
 
 exports.addUser = addUser;
 
-const addItemToContent = function(order) {
+//might want to add quantity into the table?
+const addItemToContent = function(orderId, menuId) {
+  const queryString = `
+  INSERT INTO orders_content(order_id, menu_item_id)
+  VALUES ($1, $2)
+  RETURNING *;
+  `;
+  const queryParams = [orderId, menuId];
 
+  return pool.query(queryString, queryParams)
+    .then(result => {
+      return result.rows[0];
+    })
 }
 
 exports.addItemToContent = addItemToContent
