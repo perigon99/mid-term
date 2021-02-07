@@ -45,11 +45,17 @@ $(document).ready(function () {
   }
 
   //--------------------------------Menu rendering---------------------------------------------------
-  const renderMenu = function () {
+
+    $.get("http://localhost:8080/menu", function(data, status){
+        console.log("everything went well. ", status, "My data is", data);
+        console.log(data.length)
+      }
+    )
+
     //Insert menu conditional rendering here
     //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-    $(".bodyContent").prepend($section);
-  }
+   // $(".bodyContent").prepend($section);
+
 
   //--------------------------------Function calling ------------------------------------------------
 
@@ -62,7 +68,7 @@ $(document).ready(function () {
     console.log(formContent);
 
     $.ajax({
-      url: `http://localhost:4567/login`,
+      url: `http://localhost:8080/login`,
       method: 'POST',
       data: formContent,
       success: function(result){

@@ -63,12 +63,39 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-
+const getUsers = (request, response) => {
+  pool.query(`SELECT *
+  FROM menu_items
+  where is_active = true`).then(function (data) {
+    res.status(200)
+      .json({
+        status: 'success',
+        data: data,
+        message: 'Retrieved ALL menu items'
+      });
+  })
+  .catch(function (err) {
+    return next(err);
+  });
+}
 
 
 app.get("/", (req, res) => {
-  res.render("index");
+
+  res.render("index")
 });
+pool.query("SELECT * from menu_items", (err, res) => {
+  console.log(err, res);
+  pool.end();
+});
+app.get("/menu", (req,res) => {
+  pool.query("SELECT * from menu_items", (err, res) => {
+    console.log(err, res);
+    pool.end();
+  });
+
+})
+
 
 app.get("/login", (req, res) => {
   res.render("login");

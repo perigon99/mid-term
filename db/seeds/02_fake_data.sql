@@ -10,17 +10,17 @@ values
 (2),
 (3);
 
-insert into menu_items (name, price, prep_time,type_plate)
+insert into menu_items (name, price, prep_time,type_plate, is_active)
 values
-('Osso Bucco', 55, 60, 'main'),
-('Foie gras with truffles', 25, 10, 'entry'),
-('Olypus Cheeze cake', 15, 5, 'dessert'),
-('Petrus 1994', 5995, 5, 'wine'),
-('Royal duck', 75, 60, 'main'),
-('Selection of cheeses', 35, 10, 'entry'),
-('Wild salmon tartare', 85, 60, 'main'),
-('Paris Brest', 25, 60, 'dessert'),
-('Dom Perignion', 455, 5, 'wine');
+('Osso Bucco', 55, 60, 'main', 'true'),
+('Foie gras with truffles', 25, 10, 'entry', 'true'),
+('Olypus Cheeze cake', 15, 5, 'dessert', 'true'),
+('Petrus 1994', 5995, 5, 'wine', 'true'),
+('Royal duck', 75, 60, 'main', 'true'),
+('Selection of cheeses', 35, 10, 'entry', 'true'),
+('Wild salmon tartare', 85, 60, 'main', 'true'),
+('Paris Brest', 25, 60, 'dessert', 'true'),
+('Dom Perignion', 455, 5, 'wine', 'true');
 
 insert into orders_content (orders_id, menu_item_id)
 values
