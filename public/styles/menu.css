@@ -1,0 +1,14 @@
+.menu-item {
+  background-image: url("../images/texture06.jpg");
+  opacity: 0.85;
+}
+
+.menu-lists li {
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+}
+
+.menu-lists li:hover{
+  transform: scale(1.1);
+}
