@@ -1,14 +1,10 @@
 $(document).ready(function () {
-
   //-----------------------------Navbar component------------------------------------------------------
-
   const navbar = function () {
     const userObject = false; //Retrive and pase cookie for user info if no user logged in set to false
     let $conditionalRendering = ""
-
     if (!userObject) {
       $conditionalRendering = `
-
         <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">Log in</button>
       `
     }
@@ -38,35 +34,21 @@ $(document).ready(function () {
     `
     $(".bodyContent").prepend($section);
   }
-
   const registerForm = function () {
     //Insert login form conditional rendering here
     $(".bodyContent").prepend($section);
   }
-
   //--------------------------------Menu rendering---------------------------------------------------
-
-    $.get("http://localhost:8080/menu", function(data, status){
-        console.log("everything went well. ", status, "My data is", data);
-        console.log(data.length)
-      }
-    )
-
+  const renderMenu = function () {
     //Insert menu conditional rendering here
     //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-   // $(".bodyContent").prepend($section);
-
-
+    $(".bodyContent").prepend($section);
+  }
   //--------------------------------Function calling ------------------------------------------------
-
   $('#login-form').submit(function(event) {
-
     event.preventDefault();
-
     const formContent = $(this).serialize();
-
     console.log(formContent);
-
     $.ajax({
       url: `http://localhost:8080/login`,
       method: 'POST',
@@ -80,27 +62,21 @@ $(document).ready(function () {
         } else{
           //user is not authenticated
           alert("user / password is not correct");
-
         }
       },
       error: function(error){
-
       }
     })
       // .done(() => console.log('Its working!'))
       // .fail(() => console.log('Error'))
       // .always(() => console.log('Request Completed'));
-
-
   });
-
-
-
-
-
-
+//   $.get("http://localhost:8080/menu", function(data, status){
+//     console.log("everything went well. ", status, "My data is", data);
+//     console.log(data.length)
+//   }
+// )
   const openUserLoginForm = function () {
-
     var openmodal = document.querySelectorAll('.modal-open')
     for (var i = 0; i < openmodal.length; i++) {
       openmodal[i].addEventListener('click', function (event) {
@@ -108,15 +84,12 @@ $(document).ready(function () {
         toggleModal()
       })
     }
-
     const overlay = document.querySelector('.modal-overlay')
     overlay.addEventListener('click', toggleModal)
-
     var closemodal = document.querySelectorAll('.modal-close')
     for (var i = 0; i < closemodal.length; i++) {
       closemodal[i].addEventListener('click', toggleModal)
     }
-
     document.onkeydown = function (evt) {
       evt = evt || window.event
       var isEscape = false
@@ -129,8 +102,6 @@ $(document).ready(function () {
         toggleModal()
       }
     };
-
-
     function toggleModal() {
       const body = document.querySelector('body')
       const modal = document.querySelector('.modal')
@@ -138,16 +109,10 @@ $(document).ready(function () {
       modal.classList.toggle('pointer-events-none')
       body.classList.toggle('modal-active')
     }
-
   };
-
-
-
-
   navbar();
   openUserLoginForm();
 })
-
 function toggleModal() {
   const body = document.querySelector('body')
   const modal = document.querySelector('.modal')
@@ -155,6 +120,3 @@ function toggleModal() {
   modal.classList.toggle('pointer-events-none')
   body.classList.toggle('modal-active')
 }
-
-
-

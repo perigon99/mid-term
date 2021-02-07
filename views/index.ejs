@@ -27,14 +27,14 @@
         </div>
 
         <!-- Add margin if you want to see some of the overlay behind the modal-->
-        <div class="modal-content py-4 text-left px-6">
+        <div class="modal-content py-4 text-left px-6 z-10">
           <!--Title-->
 
 
           <!--Body-->
           <div>
-            <form method="POST" action="/login" id="login-form">
-              <div class="userform-group">
+            <form class="z-50" method="POST" action="/login" id="login-form">
+              <div class="userform-group ">
                 <label for="email">email:</label>
                 <input class="form-control" type="email" name="email" placeholder="Enter userID here" style="width: 300px">
               </div>
@@ -73,7 +73,11 @@
     </div>
 
       <!-- Target in app.js for body content -->
-      <div class="bodyContent"></div>
+
+      <div class="bodyContent">
+        <%- include('./partials/menu.ejs') %>
+
+      </div>
       <!-- Target in app.js for bottom cart content -->
       <div class="cartElement"></div>
       <!-- Target in app.js for bottom status bar -->
