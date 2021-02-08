@@ -113,7 +113,7 @@ const entryHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "entry") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
     }
   }
   return menuEntries;
@@ -123,7 +123,7 @@ const mainHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "main") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
     }
   }
   return menuEntries;
@@ -132,7 +132,7 @@ const dessertHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "dessert") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
     }
   }
   return menuEntries;
@@ -142,17 +142,20 @@ const cellarHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "wine") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
     }
   }
   return menuEntries;
 }
 
+
+let menuItems
+
 const renderMenu = function () {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-  $.get("http://localhost:8080/menu", function(data, status){
-    const menuItems = data.data.rows
+  $.get("http://localhost:4567/menu", function(data, status){
+    menuItems = data.data.rows
     let $body =`
     <div class="flex pt-5 z-0">
       <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 border-double border-4 border-black menu-item">
@@ -210,23 +213,79 @@ const renderMenu = function () {
     $(".bodyContent").prepend($body);
   })
 }
+
+//-------------------------------- Check Cart Rendering ---------------------------------------------------
+
+let cart = [];
+// JSON.stringify(cart);
+console.log(cart)
+  $(document).on("click", ".addCart", function (event) {
+    // console.log(menuItems);
+
+    // if addcart => on click this specific class , do the below
+    let foodItemId = parseInt(event.target.id);
+    // console.log("is it firing?", foodItemId);
+
+    let data = menuItems.filter(item => item.id === foodItemId)
+
+
+    //  console.log(data);
+
+    //  console.log(data[0].name)
+
+    if (data) {
+      cart.push(data[0])
+    }
+
+    console.log("Added to cart:" , cart);
+
+    // console.log(event.target.id);
+    // console.log(this)
+
+
+
+    // for (let item of menuItems) {
+    //   // console.log(item);
+    //   // console.log(`${item.id}, ${item.name}, ${item.price}`)
+    //   // if ID of item clicked === ID of item in database,
+    //   if (item.id === "classid") {
+    //   // then append the item details (name, price) to the cart object
+
+    //   // cart.push(item.id, item.name, item.price);
+    //   }
+    // }
+
+  })
+
+
+$(document).ready(function() {
+  $("#formButton").click(function() {
+    $("#form1").toggle();
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 navbar();
 openUserLoginForm();
 renderMenu();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
 function toggleModal() {
   const body = document.querySelector('body')
