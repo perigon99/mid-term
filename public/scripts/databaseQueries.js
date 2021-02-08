@@ -37,7 +37,7 @@ exports.addItemToContent = addItemToContent
 
 const getNameWithEmail = function(email) {
   const queryString = `
-  SELECT name FROM users
+  SELECT * FROM users
   WHERE email = $1;
   `;
 
