@@ -9,13 +9,14 @@ const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
 // PG database client/connection setup
-const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
+const { Pool } = require('pg');
 const db = new Pool(dbParams);
 db.connect((err) => {
   if (err) throw new Error(err);
   console.log('connected!');
 });
+
 const pool = new Pool({
   user: 'labber',
   password: 'labber',
@@ -23,6 +24,7 @@ const pool = new Pool({
   database: 'midterm',
   port:5432
 });
+
 const cookieSession = require("cookie-session");
 app.use(cookieSession({
   name: 'session',
@@ -44,13 +46,24 @@ app.use("/styles", sass({
   outputStyle: 'expanded'
 }));
 app.use(express.static("public"));
+
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+
+const loginRoutes = require("./routes/login");
+const database = require("./public/scripts/database")
+
 const { response } = require('express');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
+
+// login endpoints
+const loginRouter = express.Router();
+loginRoutes(loginRouter, database);
+app.use("/login", loginRoutes(db));
+
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
