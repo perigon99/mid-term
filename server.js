@@ -92,14 +92,14 @@ app.post('/login', (req, res) => {
   })
   .catch(err => console.log('error', err.stack))
 });
-app.post('/menu', (req, res) => {
+app.get('/menu', (req, res) => {
   console.log(req.body)
   console.log("post request was succesful for menu");
   pool.query(`
   SELECT *
   FROM menu_items
   `)
-  then(function (data) {
+  .then(function (data) {
     res.status(200)
       .json({
         status: 'success',

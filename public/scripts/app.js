@@ -38,12 +38,7 @@ $(document).ready(function () {
     //Insert login form conditional rendering here
     $(".bodyContent").prepend($section);
   }
-  //--------------------------------Menu rendering---------------------------------------------------
-  const renderMenu = function () {
-    //Insert menu conditional rendering here
-    //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-    $(".bodyContent").prepend($section);
-  }
+
   //--------------------------------Function calling ------------------------------------------------
   $('#login-form').submit(function(event) {
     event.preventDefault();
@@ -71,11 +66,8 @@ $(document).ready(function () {
       // .fail(() => console.log('Error'))
       // .always(() => console.log('Request Completed'));
   });
-//   $.get("http://localhost:8080/menu", function(data, status){
-//     console.log("everything went well. ", status, "My data is", data);
-//     console.log(data.length)
-//   }
-// )
+
+
   const openUserLoginForm = function () {
     var openmodal = document.querySelectorAll('.modal-open')
     for (var i = 0; i < openmodal.length; i++) {
@@ -110,8 +102,131 @@ $(document).ready(function () {
       body.classList.toggle('modal-active')
     }
   };
-  navbar();
-  openUserLoginForm();
+
+
+
+
+//--------------------------------Menu rendering---------------------------------------------------
+
+
+const entryHelper = function(rows) {
+  let menuEntries = "";
+  for (let row of rows) {
+    if(row.type_plate === "entry") {
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+    }
+  }
+  return menuEntries;
+}
+
+const mainHelper = function(rows) {
+  let menuEntries = "";
+  for (let row of rows) {
+    if(row.type_plate === "main") {
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+    }
+  }
+  return menuEntries;
+}
+const dessertHelper = function(rows) {
+  let menuEntries = "";
+  for (let row of rows) {
+    if(row.type_plate === "dessert") {
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+    }
+  }
+  return menuEntries;
+}
+
+const cellarHelper = function(rows) {
+  let menuEntries = "";
+  for (let row of rows) {
+    if(row.type_plate === "wine") {
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+    }
+  }
+  return menuEntries;
+}
+
+const renderMenu = function () {
+  //Insert menu conditional rendering here
+  //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
+  $.get("http://localhost:8080/menu", function(data, status){
+    const menuItems = data.data.rows
+    let $body =`
+    <div class="flex pt-5 z-0">
+      <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 border-double border-4 border-black menu-item">
+          <div class="flex pt-2">
+            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 ">
+              <div class="px-6 py-4">
+                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Entries</div>
+                <p class="text-gray-700 text-base">
+                  <ul class="menu-lists">
+                  ${entryHelper(menuItems)}
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex pt-2">
+            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
+              <div class="px-6 py-4">
+                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main courses</div>
+                <p class="text-gray-700 text-base">
+                  <ul class="menu-lists">
+                  ${mainHelper(menuItems)}
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex pt-2">
+            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
+              <div class="px-6 py-4">
+                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">desserts</div>
+                <p class="text-gray-700 text-base">
+                  <ul class="menu-lists">
+                  ${dessertHelper(menuItems)}
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex pt-2">
+            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
+              <div class="px-6 py-4">
+                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Cellar</div>
+                <p class="text-gray-700 text-base">
+                  <ul class="menu-lists">
+                  ${cellarHelper(menuItems)}
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    `
+    $(".bodyContent").prepend($body);
+  })
+}
+navbar();
+openUserLoginForm();
+renderMenu();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
 function toggleModal() {
   const body = document.querySelector('body')
