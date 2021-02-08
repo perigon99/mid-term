@@ -145,6 +145,30 @@ app.get('/order', (req, res) => {
 }
 )
 
+app.post('/order', (req, res) => {
+  let rowID = req.body
+  rowID = Object.keys(rowID)
+  rowID = Number(rowID)
+  console.log("post request was succesful for orders");
+  pool.query(`
+  UPDATE orders
+  SET is_pickedup = true
+  WHERE id = $1;
+  `, [rowID])
+  .then(function (data) {
+    res.status(200)
+      .json({
+        status: 'success',
+        data: data,
+        message: 'post request comming trougth'
+      });
+  })
+  .catch(function (err) {
+    return next(err);
+  });
+}
+)
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

@@ -83,10 +83,10 @@ $(document).ready(function () {
 //--------------------------------Order table rendering logic ---------------------------------------
 const orderIdHelper = function(rows) {
   let menuEntries = "";
+
   for (let row of rows) {
     let time = row.order_time
     time = time.substr(11, 5);
-    console.log(time)
       menuEntries += `
       <tr>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.id}</td>
@@ -94,12 +94,12 @@ const orderIdHelper = function(rows) {
       <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="smsID(${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           SMS
         </button>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button id="picked:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="orderCompleted(${row.id})" id="picked:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Remove from => queue
         </button>
       </td>
@@ -109,13 +109,14 @@ const orderIdHelper = function(rows) {
   return menuEntries;
 }
 
+//Render a table with all curent orders
 const renderOrders = function () {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
   $.get("http://localhost:8080/order", function(data, status){
     const orderItems = data.data.rows;
-    console.log(orderItems)
     let $body =`<div class="flex flex-col pt-5">
+    <script>  </script>
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -154,6 +155,10 @@ const renderOrders = function () {
   $(".owner-body").prepend($body);
   })
 }
+$(function() {
+  $("li").on("click",function(event) {console.log("I clicked this shit")})})
+//----------------------------Views order content logic -----------------------------------------------------------------
+
 
 
   navbar();
