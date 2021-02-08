@@ -113,7 +113,7 @@ const entryHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "entry") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
     }
   }
   return menuEntries;
@@ -123,7 +123,7 @@ const mainHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "main") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
     }
   }
   return menuEntries;
@@ -132,7 +132,7 @@ const dessertHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "dessert") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
     }
   }
   return menuEntries;
@@ -142,7 +142,7 @@ const cellarHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "wine") {
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`
+      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
     }
   }
   return menuEntries;
@@ -152,7 +152,7 @@ const renderMenu = function () {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
   $.get("http://localhost:8080/menu", function(data, status){
-    const menuItems = data.data.rows
+    const menuItems = data.data.rows;
     let $body =`
     <div class="flex pt-5 z-0">
       <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 border-double border-4 border-black menu-item">

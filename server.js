@@ -67,7 +67,13 @@ const getUsers = () => {
   });
 }
 app.get("/", (req, res) => {
-  res.render("index");
+  let isAdmin = true
+  if(isAdmin) {
+    res.render("owner")
+  } else {
+    res.render("index");
+  }
+
 });
 app.get("/login", (req, res) => {
   res.render("login");
@@ -112,6 +118,33 @@ app.get('/menu', (req, res) => {
   });
 }
 )
+
+//-----------------------------------Order query ------------------------------
+app.get('/order', (req, res) => {
+  console.log(req.body)
+  console.log("post request was succesful for orders");
+  pool.query(`
+  SELECT *
+  FROM orders
+  JOIN users ON users_id = users.id
+  where orders.is_pickedup = false
+  GROUP BY orders.id, users.id
+  ORDER BY orders.id desc
+  `)
+  .then(function (data) {
+    res.status(200)
+      .json({
+        status: 'success',
+        data: data,
+        message: 'Retrieved ALL menu items'
+      });
+  })
+  .catch(function (err) {
+    return next(err);
+  });
+}
+)
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
