@@ -53,6 +53,7 @@ const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 
 const loginRoutes = require("./routes/login");
+const logoutRoutes = require("./routes/logout")
 const database = require("./server/database")
 
 const { response } = require('express');
@@ -61,7 +62,7 @@ const { response } = require('express');
 
 // login endpoints
 app.use("/login", loginRoutes(db));
-
+app.use("/logout", logoutRoutes(db));
 // app.post("/login", (req, res) => {
 //   console.log("login", req);
 // })

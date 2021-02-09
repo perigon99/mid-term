@@ -6,4 +6,5 @@ module.exports = (db) => {
     req.session['user_id'] = null;
     res.json({success: true})
   })
+  return router;
 }
