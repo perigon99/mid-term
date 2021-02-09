@@ -1,4 +1,5 @@
 const { AddOnResultInstance } = require("twilio/lib/rest/api/v2010/account/recording/addOnResult");
+const { Pool } = require('pg');
 
 const pool = new Pool({
   user: 'labber',
@@ -53,6 +54,26 @@ const getNameWithEmail = function(email) {
 }
 
 exports.getNameWithEmail = getNameWithEmail;
+
+const userAuth = function(email, password) {
+  const queryString = `
+  SELECT id, name
+  FROM users WHERE email = $1 AND password = $2
+  `
+  const queryParams = [email, password]
+
+  pool.query(queryString, queryParams)
+    .then((result) => {
+      if (result.rows[0]) {
+        res.json({result: true});
+      } else {
+        res.json({result: false})
+      }
+    })
+    .catch(err => console.log('error', err.stack))
+}
+
+exports.userAuth = userAuth;
 
 const showAllOrders = function(userId) {
   let orders = [];

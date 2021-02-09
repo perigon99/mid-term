@@ -1,11 +1,12 @@
 $(document).ready(function () {
   //-----------------------------Navbar component------------------------------------------------------
   const navbar = function () {
-    const userObject = false; //Retrive and pase cookie for user info if no user logged in set to false
+    const userObject = false; //Retrive and parse cookie for user info if no user logged in set to false
     let $conditionalRendering = ""
     if (!userObject) {
       $conditionalRendering = `
-        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">Log in</button>
+        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full" id="login-button">Log in</button>
+        <button class="bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full hidden" id="logout-button" >Log out</button>
       `
     }
     else  {
@@ -40,6 +41,7 @@ $(document).ready(function () {
   }
 
   //--------------------------------Function calling ------------------------------------------------
+
   $('#login-form').submit(function(event) {
     event.preventDefault();
     const formContent = $(this).serialize();
@@ -50,10 +52,16 @@ $(document).ready(function () {
       data: formContent,
       success: function(result){
         console.log("everything went well. ", result);
-        if(result.result){
+        if(result.name){
           //do whatever you want
           alert("The user is authenticated");
           toggleModal();
+          const loginButton = document.getElementById("login-button");
+          const logoutButton = document.getElementById("logout-button");
+
+          loginButton.style.display = "none";
+          logoutButton.style.display = "block";
+          $("#navbar").prepend(`Welcome: ${result.name}`)
         } else{
           //user is not authenticated
           alert("user / password is not correct");
@@ -64,10 +72,14 @@ $(document).ready(function () {
     })
       // .done(() => console.log('Its working!'))
       // .fail(() => console.log('Error'))
-      // .always(() => console.log('Request Completed'));
+      // .always(() => console.log('Request Completed'))
   });
 
-
+//   $.get("http://localhost:8080/menu", function(data, status){
+//     console.log("everything went well. ", status, "My data is", data);
+//     console.log(data.length)
+//   }
+// )
   const openUserLoginForm = function () {
     var openmodal = document.querySelectorAll('.modal-open')
     for (var i = 0; i < openmodal.length; i++) {
@@ -154,7 +166,7 @@ let menuItems
 const renderMenu = function () {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-  $.get("http://localhost:4567/menu", function(data, status){
+  $.get("/menu", function(data, status){
     menuItems = data.data.rows
     let $body =`
     <div class="flex pt-5 z-0">
@@ -299,29 +311,32 @@ $(document).ready(function() {
   });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 navbar();
 openUserLoginForm();
 renderMenu();
+  $(document).ready( function () {
+    const logoutButton = document.getElementById("logout-button");
+    $(logoutButton).on('click', function() {
+      alert("Handle for logout called");
+      $.ajax({
+        url: `/logout`,
+        method: 'POST',
+        success: function(result){
+          console.log(result)
+          if(result) {
+            console.log(result);
+            const loginButton = document.getElementById("login-button");
+            const logoutButton = document.getElementById("logout-button");
+            loginButton.style.display = "block";
+            logoutButton.style.display = "none";
+          }
+        }
+      })
+    });
+  })
 })
+
+
 function toggleModal() {
   const body = document.querySelector('body')
   const modal = document.querySelector('.modal')
