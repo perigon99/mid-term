@@ -9,13 +9,14 @@ const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
 // PG database client/connection setup
-const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
+const { Pool } = require('pg');
 const db = new Pool(dbParams);
 db.connect((err) => {
   if (err) throw new Error(err);
   console.log('connected!');
 });
+
 const pool = new Pool({
   user: 'labber',
   password: 'labber',
@@ -23,6 +24,12 @@ const pool = new Pool({
   database: 'midterm',
   port:5432
 });
+
+const cookieSession = require("cookie-session");
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
 // app.use(bodyParser.urlencoded({extended: true}));
 // const toggleModal = require('scriptstwo.js');
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -42,9 +49,18 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+
+
+const loginRoutes = require("./routes/login");
+const logoutRoutes = require("./routes/logout")
+const database = require("./server/database")
+
 const { response } = require('express');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
+app.use("/login", loginRoutes(db));
+app.use("/logout", logoutRoutes(db));
+
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
@@ -75,29 +91,10 @@ app.get("/", (req, res) => {
   }
 
 });
-app.get("/login", (req, res) => {
-  res.render("login");
-});
 // app.get("/menu", (req, res) => {
 //   console.log("This page exists");
 //   res.send(getUsers)
 // })
-app.post('/login', (req, res) => {
-  console.log(req.body);
-  pool.query(
-    `
-  SELECT id, name
-  FROM users WHERE email = $1 AND password = $2`, [req.body.email.toLowerCase(), req.body.password]
-  )
-  .then((result)=>{
-    if (result.rows[0]) {
-      res.json({result: true});
-    } else {
-      res.json({result: false})
-    }
-  })
-  .catch(err => console.log('error', err.stack))
-});
 app.get('/menu', (req, res) => {
   console.log(req.body)
   console.log("post request was succesful for menu");

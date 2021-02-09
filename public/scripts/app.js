@@ -61,7 +61,7 @@ $(document).ready(function () {
 
           loginButton.style.display = "none";
           logoutButton.style.display = "block";
-          $("#navbar").prepend(`Welcome: ${result.name}`)
+          $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`)
         } else{
           //user is not authenticated
           alert("user / password is not correct");
@@ -75,11 +75,6 @@ $(document).ready(function () {
       // .always(() => console.log('Request Completed'))
   });
 
-//   $.get("http://localhost:8080/menu", function(data, status){
-//     console.log("everything went well. ", status, "My data is", data);
-//     console.log(data.length)
-//   }
-// )
   const openUserLoginForm = function () {
     var openmodal = document.querySelectorAll('.modal-open')
     for (var i = 0; i < openmodal.length; i++) {
@@ -327,6 +322,7 @@ renderMenu();
             console.log(result);
             const loginButton = document.getElementById("login-button");
             const logoutButton = document.getElementById("logout-button");
+            $(".welcome-message").empty();
             loginButton.style.display = "block";
             logoutButton.style.display = "none";
           }

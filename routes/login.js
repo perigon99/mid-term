@@ -10,7 +10,7 @@ module.exports = (db) => {
     return getNameWithEmail(email)
       .then(user => {
         if (user.password === password) {
-          req.session.id = user.id;
+          res.cookie(user.name, user.is_admin);
           res.json({name: user.name});
         } else {
           res.json({result:false});
