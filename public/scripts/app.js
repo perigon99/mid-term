@@ -231,7 +231,7 @@ let cart = [];
     //  console.log(data[0].name)
     if (data) {
       cart.push(data[0])
-      cartInfo(cart);
+      // cartInfo(cart);
     }
 
     // console.log("Added to cart:" , cart);
@@ -240,46 +240,51 @@ let cart = [];
   })
 
 
-  console.log(cart)
+  // console.log(cart)
 
-  const cartInfo = function (foodCart) {
+  // const cartInfo = function (foodCart) {
 
-    for (let item of foodCart) {
-      // console.log("foodcart here", foodCart);
-      // console.log("items in the cart", item)
-    }
-  }
+  //   for (let item of foodCart) {
+  //     // console.log("foodcart here", foodCart);
+  //     // console.log("items in the cart", item)
+  //   }
+  // }
 
 
 
   // console.log("Added to cart:" , cart);
 
-  $(".addCart").click(function() {
-    // console.log("thisOne", cart)
-    ("#testappend").append("<div>test</div>");
-  })
+  // $(".addCart").click(function() {
+  //   // console.log("thisOne", cart)
+  //   ("#testappend").append("<div>test</div>");
+  // })
 
 
 $(document).ready(function() {
   $("#formButton").click(function() {
     $("#form1").toggle();
-    console.log("thissecondone", cart);
+    console.log("items in cart:", cart);
 
     let subtotalCounter = 0;
     let quantityCounter = 0;
 
+    $("#food").empty();
+
+
     cart.forEach(item => {
       // console.log("items in the cart", item)
-      $("#food").append(`<div>${item.name} - $ ${item.price} </div>`);
+      $("#food").append(`<div>${item.name} - $${item.price} </div>`);
 
       subtotalCounter += item.price;
       quantityCounter += 1;
     })
 
-    $("#total").append(subtotalCounter).detach();
-    $("#quantity").append(quantityCounter);
-    console.log(subtotalCounter);
-    console.log(quantityCounter);
+    $("#stotal").text(subtotalCounter);
+    $("#sub-total").text(subtotalCounter);
+    $("#quantity").text(`Quantity: ${quantityCounter}`);
+
+    // console.log(subtotalCounter);
+    // console.log(quantityCounter);
 
 
       // console.log("test name finder", item.name)
