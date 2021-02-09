@@ -265,13 +265,21 @@ $(document).ready(function() {
     $("#form1").toggle();
     console.log("thissecondone", cart);
 
+    let subtotalCounter = 0;
+    let quantityCounter = 0;
 
     cart.forEach(item => {
       // console.log("items in the cart", item)
       $("#food").append(`<div>${item.name} - $ ${item.price} </div>`);
 
+      subtotalCounter += item.price;
+      quantityCounter += 1;
     })
 
+    $("#total").append(subtotalCounter).detach();
+    $("#quantity").append(quantityCounter);
+    console.log(subtotalCounter);
+    console.log(quantityCounter);
 
 
       // console.log("test name finder", item.name)
