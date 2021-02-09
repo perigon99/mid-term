@@ -128,7 +128,9 @@ $(document).ready(function () {
         url: `/logout`,
         method: 'POST',
         success: function(result){
-          if(result.result) {
+          console.log(result)
+          if(result) {
+            console.log(result);
             const loginButton = document.getElementById("login-button");
             const logoutButton = document.getElementById("logout-button");
             loginButton.style.display = "block";
