@@ -1,8 +1,9 @@
-insert into users (name, email, password, telephone)
+insert into users (name, email, password, telephone, is_admin)
 values
-('Chris', 'c@c.com','password', '5144624478'),
-('Sebas', 's@c.com','password','5144624478'),
-('Alex', 'a@c.com','password','5144624478');
+('Chris', 'c@c.com','password', '5144624478', false),
+('Sebas', 's@c.com','password','5144624478', false),
+('Alex', 'a@c.com','password','5144624478', false),
+('Admin', 'admin@lux.com','password','5144624478', true);
 
 insert into orders (users_id)
 values
