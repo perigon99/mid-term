@@ -1,11 +1,12 @@
 $(document).ready(function () {
   //-----------------------------Navbar component------------------------------------------------------
   const navbar = function () {
-    const userObject = false; //Retrive and pase cookie for user info if no user logged in set to false
+    const userObject = false; //Retrive and parse cookie for user info if no user logged in set to false
     let $conditionalRendering = ""
     if (!userObject) {
       $conditionalRendering = `
         <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full" id="login-button">Log in</button>
+        <button class="bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full hidden" id="logout-button" >Log out</button>
       `
     }
     else  {
@@ -38,6 +39,7 @@ $(document).ready(function () {
     //Insert login form conditional rendering here
     $(".bodyContent").prepend($section);
   }
+
   //--------------------------------Menu rendering---------------------------------------------------
   const renderMenu = function () {
     //Insert menu conditional rendering here
@@ -45,6 +47,7 @@ $(document).ready(function () {
     $(".bodyContent").prepend($section);
   }
   //--------------------------------Function calling ------------------------------------------------
+
   $('#login-form').submit(function(event) {
     event.preventDefault();
     const formContent = $(this).serialize();
@@ -59,8 +62,10 @@ $(document).ready(function () {
           //do whatever you want
           alert("The user is authenticated");
           toggleModal();
-          const button = document.getElementById("login-button");
-          button.style.display = "none";
+          const loginButton = document.getElementById("login-button");
+          loginButton.style.display = "none";
+          const logoutButton = document.getElementById("logout-button");
+          logoutButton.style.display = "block";
           $("#navbar").prepend(`Welcome: ${result.name}`)
         } else{
           //user is not authenticated
@@ -72,8 +77,9 @@ $(document).ready(function () {
     })
       // .done(() => console.log('Its working!'))
       // .fail(() => console.log('Error'))
-      // .always(() => console.log('Request Completed'));
+      // .always(() => console.log('Request Completed'))
   });
+
 //   $.get("http://localhost:8080/menu", function(data, status){
 //     console.log("everything went well. ", status, "My data is", data);
 //     console.log(data.length)
@@ -113,9 +119,23 @@ $(document).ready(function () {
       body.classList.toggle('modal-active')
     }
   };
+  $(document).ready( function () {
+    const logoutButton = document.getElementById("logout-button");
+    $(logoutButton).on('click', function() {
+      alert("Handle for logout called");
+      $.ajax({
+        url: `/logout`,
+        method: 'POST',
+        data: formContent,
+      })
+      req.session['user_id'] = null;
+    });
+  })
   navbar();
   openUserLoginForm();
 })
+
+
 function toggleModal() {
   const body = document.querySelector('body')
   const modal = document.querySelector('.modal')
