@@ -1,0 +1,15 @@
+div {
+  margin-top: 1.5em;
+}
+
+.footer-elements {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+#form1 {
+
+  display:none;
+
+  }
