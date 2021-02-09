@@ -2,9 +2,9 @@ const orderIdHelper = function(rows) {
   let menuEntries = "";
 
   for (let row of rows) {
-    let time = row.order_time
+    let time = row.order_time;
     time = time.substr(11, 5);
-      menuEntries += `
+    menuEntries += `
       <tr id="picked:${row.id}">
       <td class="px-6 py-4 whitespace-nowrap"> ${row.id}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
@@ -24,15 +24,15 @@ const orderIdHelper = function(rows) {
       `;
   }
   return menuEntries;
-}
+};
 
 //Render a table with all curent orders
-const renderOrders = function () {
+const renderOrders = function() {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-  $.get("http://localhost:8080/order", function(data, status){
+  $.get("http://localhost:8080/order", function(data, status) {
     const orderItems = data.data.rows;
-    let $body =`<div class="flex flex-col pt-5">
+    let $body = `<div class="flex flex-col pt-5">
     <script>  </script>
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -68,51 +68,56 @@ const renderOrders = function () {
         </div>
       </div>
     </div>
-  </div>`
-  $(".owner-body").prepend($body);
-  })
-}
+  </div>`;
+    $(".owner-body").prepend($body);
+  });
+};
 $(function() {
-  $("li").on("click",function(event) {console.log("I clicked this shit")})})
+  $("li").on("click",function(event) {
+    console.log("I clicked this shit");
+  });
+});
 //----------------------------Views order content logic -----------------------------------------------------------------
 
 const clearTable = function() {
   $(".owner-body").empty();
 
-}
+};
 
 const smsID = function(id) {
-    $.ajax({
-      url: `http://localhost:8080/sendsms`,
-      method: 'POST',
-      data: id,
-      success: function(result){
-        console.log("everything went well. ", result);
-      },
-      error: function(error){
-        console.log(error)
-      }
+  $.ajax({
+    url: `http://localhost:8080/sendsms`,
+    method: 'POST',
+    data: id,
+    success: function(result) {
+      console.log("everything went well. ", result);
+    },
+    error: function(error) {
+      console.log(error);
+    }
   });
-  console.log(id)
-}
+  console.log(id);
+};
 const orderCompleted = function(id) {
-  if(id){
+  if (id) {
     $.ajax({
       url: `http://localhost:8080/order`,
       method: 'POST',
       data: id.toString(),
-      success: function(result){
+      success: function(result) {
         clearTable();
-        $(document).ready(function(){renderOrders()})
+        $(document).ready(function() {
+          renderOrders();
+        });
 
       // location.reload(); //Need to make it only rerender the table
       },
-      error: function(error){
-        console.log(error)
+      error: function(error) {
+        console.log(error);
       }
-   });
+    });
 
   }
 
-}
+};
 

@@ -24,6 +24,7 @@
     "twilio": "^3.55.1"
   },
   "devDependencies": {
+    "eslint": "^7.19.0",
     "nodemon": "^1.19.1"
   }
 }
