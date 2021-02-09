@@ -63,8 +63,9 @@ $(document).ready(function () {
           alert("The user is authenticated");
           toggleModal();
           const loginButton = document.getElementById("login-button");
-          loginButton.style.display = "none";
           const logoutButton = document.getElementById("logout-button");
+
+          loginButton.style.display = "none";
           logoutButton.style.display = "block";
           $("#navbar").prepend(`Welcome: ${result.name}`)
         } else{
@@ -126,9 +127,15 @@ $(document).ready(function () {
       $.ajax({
         url: `/logout`,
         method: 'POST',
-        data: formContent,
+        success: function(result){
+          if(result.result) {
+            const loginButton = document.getElementById("login-button");
+            const logoutButton = document.getElementById("logout-button");
+            loginButton.style.display = "block";
+            logoutButton.style.display = "none";
+          }
+        }
       })
-      req.session['user_id'] = null;
     });
   })
   navbar();
