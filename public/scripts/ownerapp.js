@@ -88,7 +88,7 @@ const orderIdHelper = function(rows) {
     let time = row.order_time
     time = time.substr(11, 5);
       menuEntries += `
-      <tr>
+      <tr id="picked:${row.id}">
       <td class="px-6 py-4 whitespace-nowrap"> ${row.id}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
@@ -99,7 +99,7 @@ const orderIdHelper = function(rows) {
         </button>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="orderCompleted(${row.id})" id="picked:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="orderCompleted(${row.id})"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Remove from => queue
         </button>
       </td>
@@ -159,9 +159,16 @@ $(function() {
   $("li").on("click",function(event) {console.log("I clicked this shit")})})
 //----------------------------Views order content logic -----------------------------------------------------------------
 
+const clearTable = function() {
+  $(".owner-body").remove();
 
+}
 
   navbar();
   openUserLoginForm();
   renderOrders();
+
+module.exports = {renderOrders, clearTable}
+
 })
+
