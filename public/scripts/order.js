@@ -1,6 +1,6 @@
 const smsID = function(id) {
     $.ajax({
-      url: `http://localhost:8080/sendsms`,
+      url: `/sendsms`,
       method: 'POST',
       data: id,
       success: function(result){
@@ -14,7 +14,7 @@ const smsID = function(id) {
 }
 const orderCompleted = function(id) {
   $.ajax({
-    url: `http://localhost:8080/order`,
+    url: `/order`,
     method: 'POST',
     data: id.toString(),
     success: function(result){

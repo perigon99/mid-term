@@ -67,7 +67,7 @@ const getUsers = () => {
   });
 }
 app.get("/", (req, res) => {
-  let isAdmin = true
+  let isAdmin = false
   if(isAdmin) {
     res.render("owner")
   } else {

@@ -22,7 +22,7 @@ $(document).ready(function () {
     const formContent = $(this).serialize();
     console.log(formContent);
     $.ajax({
-      url: `http://localhost:8080/login`,
+      url: `/login`,
       method: 'POST',
       data: formContent,
       success: function(result){
@@ -113,7 +113,7 @@ const orderIdHelper = function(rows) {
 const renderOrders = function () {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-  $.get("http://localhost:8080/order", function(data, status){
+  $.get("/order", function(data, status){
     const orderItems = data.data.rows;
     let $body =`<div class="flex flex-col pt-5">
     <script>  </script>

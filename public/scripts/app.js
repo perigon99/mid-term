@@ -45,7 +45,7 @@ $(document).ready(function () {
     const formContent = $(this).serialize();
     console.log(formContent);
     $.ajax({
-      url: `http://localhost:8080/login`,
+      url: `/login`,
       method: 'POST',
       data: formContent,
       success: function(result){
@@ -113,11 +113,7 @@ const entryHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "entry") {
-<<<<<<< HEAD
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
-=======
       menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
->>>>>>> backend/check_cart
     }
   }
   return menuEntries;
@@ -127,11 +123,7 @@ const mainHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "main") {
-<<<<<<< HEAD
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
-=======
       menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
->>>>>>> backend/check_cart
     }
   }
   return menuEntries;
@@ -140,11 +132,7 @@ const dessertHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "dessert") {
-<<<<<<< HEAD
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
-=======
       menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
->>>>>>> backend/check_cart
     }
   }
   return menuEntries;
@@ -154,11 +142,7 @@ const cellarHelper = function(rows) {
   let menuEntries = "";
   for (let row of rows) {
     if(row.type_plate === "wine") {
-<<<<<<< HEAD
-      menuEntries += `<li id="${row.id}">${row.name} ----- ${row.price} $</li>`;
-=======
       menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`
->>>>>>> backend/check_cart
     }
   }
   return menuEntries;
@@ -170,13 +154,8 @@ let menuItems
 const renderMenu = function () {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-<<<<<<< HEAD
-  $.get("http://localhost:8080/menu", function(data, status){
-    const menuItems = data.data.rows;
-=======
   $.get("http://localhost:4567/menu", function(data, status){
     menuItems = data.data.rows
->>>>>>> backend/check_cart
     let $body =`
     <div class="flex pt-5 z-0">
       <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 border-double border-4 border-black menu-item">
@@ -240,6 +219,9 @@ const renderMenu = function () {
 let cart = [];
 // JSON.stringify(cart);
 
+// object => key = id , value = quantity
+// displaying the cart => lookup the key in this object => food item
+
 
   $(document).on("click", ".addCart", function (event) {
     // console.log(menuItems);
@@ -248,6 +230,8 @@ let cart = [];
     let foodItemId = parseInt(event.target.id);
     // console.log("is it firing?", foodItemId);
     let data = menuItems.filter(item => item.id === foodItemId)
+
+
     //  console.log(data);
     //  console.log(data[0].name)
     if (data) {
