@@ -88,12 +88,12 @@ $(document).ready(function() {
       time = time.substr(11, 5);
       menuEntries += `
       <tr id="picked:${row.id}">
-      <td class="px-6 py-4 whitespace-nowrap"> ${row.id}</td>
+      <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="smsID(${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           SMS
         </button>
       </td>
@@ -122,7 +122,7 @@ $(document).ready(function() {
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Order ID
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -159,18 +159,42 @@ $(document).ready(function() {
       console.log("I clicked this shit");
     });
   });
-  //----------------------------Views order content logic -----------------------------------------------------------------
 
-  const clearTable = function() {
-    $(".owner-body").remove();
 
+  //---------------------------- Body management -----------------------------------------------------------------
+  const clearBody = function() {
+    $(".owner-body ").empty();
   };
 
+  const showOrder = function() {
+    $("#show-order").click(function() {
+      clearBody();
+      renderOrders();
+    })
+  }
+
+  const editMenu = function() {
+    $("#edit-menu").click(function() {
+      clearBody();
+
+    })
+  }
+
+  const addMenu = function() {
+    $("#add-menu").click(function() {
+      clearBody();
+
+    })
+  }
+
+
+  //--------------------------Function calling -----------------------------------
+  addMenu();
+  editMenu();
+  showOrder();
   navbar();
   openUserLoginForm();
   renderOrders();
-
-  module.exports = {renderOrders, clearTable};
 
 });
 

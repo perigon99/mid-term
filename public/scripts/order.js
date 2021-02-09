@@ -6,12 +6,12 @@ const orderIdHelper = function(rows) {
     time = time.substr(11, 5);
     menuEntries += `
       <tr id="picked:${row.id}">
-      <td class="px-6 py-4 whitespace-nowrap"> ${row.id}</td>
+      <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="smsID(${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           SMS
         </button>
       </td>
@@ -40,7 +40,7 @@ const renderOrders = function() {
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Order ID
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -84,19 +84,20 @@ const clearTable = function() {
 
 };
 
-const smsID = function(id) {
-  $.ajax({
-    url: `http://localhost:8080/sendsms`,
-    method: 'POST',
-    data: id,
-    success: function(result) {
-      console.log("everything went well. ", result);
-    },
-    error: function(error) {
-      console.log(error);
-    }
-  });
-  console.log(id);
+const smsID = function(telephone, id) {
+  // $.ajax({
+  //   url: `http://localhost:8080/sendsms`,
+  //   method: 'POST',
+  //   data: id,
+  //   success: function(result) {
+  //     console.log("everything went well. ", result);
+  //   },
+  //   error: function(error) {
+  //     console.log(error);
+  //   }
+  // });
+  $(`#ready:${id}`).css("background-color","gray")
+  console.log(telephone);
 };
 const orderCompleted = function(id) {
   if (id) {
