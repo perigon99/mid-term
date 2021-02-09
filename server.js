@@ -121,7 +121,6 @@ app.get('/menu', (req, res) => {
 
 //-----------------------------------Order query ------------------------------
 app.get('/order', (req, res) => {
-  console.log(req.body)
   console.log("post request was succesful for orders");
   pool.query(`
   SELECT *
@@ -146,26 +145,29 @@ app.get('/order', (req, res) => {
 )
 
 app.post('/order', (req, res) => {
-  let rowID = req.body
-  rowID = Object.keys(rowID)
-  rowID = Number(rowID)
-  console.log("post request was succesful for orders");
-  pool.query(`
-  UPDATE orders
-  SET is_pickedup = true
-  WHERE id = $1;
-  `, [rowID])
-  .then(function (data) {
-    res.status(200)
-      .json({
-        status: 'success',
-        data: data,
-        message: 'post request comming trougth'
-      });
-  })
-  .catch(function (err) {
-    return next(err);
-  });
+  if(req.body) {
+    let rowID = req.body
+    rowID = Object.keys(rowID)
+    rowID = Number(rowID)
+    console.log("post request was succesful for orders", rowID);
+    pool.query(`
+    UPDATE orders
+    SET is_pickedup = true
+    WHERE id = $1;
+    `, [rowID])
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'post request comming trougth'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+  }
+
 }
 )
 
