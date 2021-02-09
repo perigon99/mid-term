@@ -53,17 +53,18 @@ const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 
 const loginRoutes = require("./routes/login");
-const database = require("./public/scripts/database")
+const database = require("./server/database")
 
 const { response } = require('express');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 
 // login endpoints
-const loginRouter = express.Router();
-loginRoutes(loginRouter, database);
 app.use("/login", loginRoutes(db));
 
+// app.post("/login", (req, res) => {
+//   console.log("login", req);
+// })
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above

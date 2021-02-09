@@ -5,7 +5,7 @@ $(document).ready(function () {
     let $conditionalRendering = ""
     if (!userObject) {
       $conditionalRendering = `
-        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">Log in</button>
+        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full" id="login-button">Log in</button>
       `
     }
     else  {
@@ -55,10 +55,13 @@ $(document).ready(function () {
       data: formContent,
       success: function(result){
         console.log("everything went well. ", result);
-        if(result.result){
+        if(result.name){
           //do whatever you want
           alert("The user is authenticated");
           toggleModal();
+          const button = document.getElementById("login-button");
+          button.style.display = "none";
+          $("#navbar").prepend(`Welcome: ${result.name}`)
         } else{
           //user is not authenticated
           alert("user / password is not correct");

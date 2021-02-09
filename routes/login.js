@@ -1,17 +1,9 @@
 const express = require('express');
-const { getNameWithEmail } = require('../public/scripts/database');
 const router = express.Router();
-const userAuth = require('../public/scripts/database')
-
-
+const { getNameWithEmail } = require('../server/database');
 
 module.exports = (db) => {
-
-  router.get("/login", (req, res) => {
-    res.render("login");
-  });
-
-  router.post("/login", (req, res) => {
+  router.post("/", (req, res) => {
     const email = req.body.email.toLowerCase();
     const password = req.body.password;
     console.log(req.body);
@@ -19,7 +11,7 @@ module.exports = (db) => {
       .then(user => {
         if (user.password === password) {
           req.session.id = user.id;
-          res.json({result: true});
+          res.json({name: user.name});
         } else {
           res.json({result:false});
         }
