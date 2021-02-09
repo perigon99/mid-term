@@ -218,49 +218,66 @@ const renderMenu = function () {
 
 let cart = [];
 // JSON.stringify(cart);
-console.log(cart)
+
+
   $(document).on("click", ".addCart", function (event) {
     // console.log(menuItems);
 
     // if addcart => on click this specific class , do the below
     let foodItemId = parseInt(event.target.id);
     // console.log("is it firing?", foodItemId);
-
     let data = menuItems.filter(item => item.id === foodItemId)
-
-
     //  console.log(data);
-
     //  console.log(data[0].name)
-
     if (data) {
       cart.push(data[0])
+      cartInfo(cart);
     }
 
-    console.log("Added to cart:" , cart);
+    // console.log("Added to cart:" , cart);
 
-    // console.log(event.target.id);
-    // console.log(this)
+    // console.log(`Added to cart: ${cart[0].name} , $${cart[0].price}`)
+  })
+
+
+  console.log(cart)
+
+  const cartInfo = function (foodCart) {
+
+    for (let item of foodCart) {
+      // console.log("foodcart here", foodCart);
+      // console.log("items in the cart", item)
+    }
+  }
 
 
 
-    // for (let item of menuItems) {
-    //   // console.log(item);
-    //   // console.log(`${item.id}, ${item.name}, ${item.price}`)
-    //   // if ID of item clicked === ID of item in database,
-    //   if (item.id === "classid") {
-    //   // then append the item details (name, price) to the cart object
+  // console.log("Added to cart:" , cart);
 
-    //   // cart.push(item.id, item.name, item.price);
-    //   }
-    // }
-
+  $(".addCart").click(function() {
+    // console.log("thisOne", cart)
+    ("#testappend").append("<div>test</div>");
   })
 
 
 $(document).ready(function() {
   $("#formButton").click(function() {
     $("#form1").toggle();
+    console.log("thissecondone", cart);
+
+
+    cart.forEach(item => {
+      // console.log("items in the cart", item)
+      $("#food").append(`<div>${item.name} - $ ${item.price} </div>`);
+
+    })
+
+
+
+      // console.log("test name finder", item.name)
+
+
+    // $("#testappend").append("<div>test</div>");
   });
 });
 
