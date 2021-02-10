@@ -101,12 +101,12 @@ $(document).ready(function() {
         </button>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="orderCompleted(${row.id})"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Remove from => queue
+        <button onclick="orderCompleted(${row.id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Remove from queue
         </button>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-      <button onclick="orderDetail(${row.id})"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <button onclick="orderDetail(${row.id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Order Details
       </button>
       </td>
@@ -253,6 +253,56 @@ const submitNewItem = function() {
   $(".owner-body").prepend($newMenuItemForm);
 }
 
+//----------------------------------------------Edit menu logic ---------------------------------------------------------
+const renderEditMenu = function() {
+  $.get("/menu/all", function(data, status){
+    menuItems = data.data.rows
+  const $body = `<div class="flex flex-col pt-5">
+  <script>  </script>
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ID
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Price
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Prep Time
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Type
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Add to Menu
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Remove from Menu
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+              ${editMenuHelper(orderItems)}
+            <!-- More items... -->
+          </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    $(".owner-body").prepend($body);
+  })
+}
 
   //---------------------------- Body management -----------------------------------------------------------------
   const clearBody = function() {
