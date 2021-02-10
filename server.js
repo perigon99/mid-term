@@ -26,7 +26,6 @@ const pool = new Pool({
   port:5432
 });
 const { sendText } = require('./api/twilio.js');
-console.log("This is the send text require", sendText );
 
 var twilioNumber = '+12247013494'
 const cookieSession = require("cookie-session");
@@ -56,6 +55,7 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 
+const cartRoutes = require("./routes/cart")
 const loginRoutes = require("./routes/login");
 const logoutRoutes = require("./routes/logout")
 
@@ -64,6 +64,7 @@ const { response } = require('express');
 // Note: Feel free to replace the example routes below with your own
 app.use("/login", loginRoutes(db));
 app.use("/logout", logoutRoutes(db));
+app.use("/cart", cartRoutes(db));
 
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
@@ -117,6 +118,7 @@ app.get('/menu', (req, res) => {
 )
 
 //-----------------------------------Order query ------------------------------
+
 app.get('/order', (req, res) => {
   console.log("post request was succesful for orders");
   pool.query(`
@@ -141,101 +143,55 @@ app.get('/order', (req, res) => {
 }
 )
 
-app.put('/order', (req, res) => {
-  if(req.body) {
-    let rowID = req.body
-    rowID = Object.keys(rowID)
-    rowID = Number(rowID)
-    console.log("post request was succesful for orders", rowID);
-    pool.query(`
-    UPDATE orders
-    SET is_pickedup = true
-    WHERE id = $1;
-    `, [rowID])
-    .then(function (data) {
-      res.status(200)
-        .json({
-          status: 'success',
-          data: data,
-          message: 'post request comming trougth'
-        });
-    })
-    .catch(function (err) {
-      return next(err);
-    });
-  }
-}
-)
-
-app.post('/cart', (req, res) => {
-
-    console.log("Backend receiving req",req.body);
 
 
-    // NewOrderId(user.id);
 
-    // for each row, add the items
 
-    // rowID = Object.keys(rowID)
-    // rowID = Number(rowID)
 
-    // pool.query(`
-    //   INSERT INTO orders (users_id)
-    //   VALUES($2) RETURNING id;
-    // `, [rowID])
-   // .then(function (data) {
-     // get user_id from the cookie
-//----------------------------------instructions ----------------------------------------------
-     // get user_id from cookie =>> do the first query to create a new order with the user id
-     //first query INSERT INTO orders (users_id)
-      // VALUES(2) RETURNING id;
-     //then from the response data from the query 1
-     //do : INSERT INTO orders_content (menu_item_id, orders_id)
-     //VALUES(id of the menu item,the value that will be return by firt query);
-//----------------------------------instruction
-     getUserFromCookie(req.session.id)
-      .then (result => {
-        NewOrderId(result.id)
-        .then (result => {
-          console.log("THIS ONE IS THE RESULT:", result.id);
-          for (item of req.body) {
-            addItemToContent(result.id, item.id)
-              .then(function (result) {
-                console.log("THIS IS THE FINAL?:", result)
-              })
-              .catch(function (err) {
-                console.log(err);
-              })
-          }
-          sendText('This is order', twilioNumber, 1000, 2, true)
-          sendText('An order has been received: Order ', twilioNumber, 1000, 1, false)
-        })
-      })
-  //     console.log(data);
-  //     pool.query(`
-  //     INSERT INTO orders (users_id)
-  //     VALUES($2) RETURNING id;
-  //   `, [user_id])
-  //  .then(function (data) {
 
-      res.status(200)
-        .json({
-          status: 'success',
-          data: "data",
-          message: 'post request comming trougth'
-        });
-    // })
-    // .catch(function (err) {
-    //   return console.log(err);
-    // });
 
-}
-)
 
-// app.delete('/cart', (req, res) => {
-//   console.log("Receiving from req", req.body);
-//   console.log("receiving from res", res.body);
-// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
