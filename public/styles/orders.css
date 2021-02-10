@@ -11,3 +11,6 @@ body.modal-active {
   overflow-x: hidden;
   overflow-y: visible !important;
 }
+.cancel-button {
+  text-align-last: center
+}

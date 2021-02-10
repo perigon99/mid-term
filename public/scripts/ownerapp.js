@@ -1,5 +1,8 @@
 $(document).ready(function() {
   //-----------------------------Navbar component------------------------------------------------------
+
+
+
   const navbar = function() {
     const userObject = false; //Retrive and pase cookie for user info if no user logged in set to false
     let $conditionalRendering = "";
@@ -106,7 +109,7 @@ $(document).ready(function() {
       <button onclick="orderDetail(${row.id})"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Order Details
       </button>
-    </td>
+      </td>
       </tr>
       `;
     }
@@ -176,6 +179,7 @@ $(document).ready(function() {
 
   const showOrder = function() {
     $("#show-order").click(function() {
+      console.log('button working')
       clearBody();
       renderOrders();
     })
@@ -197,12 +201,12 @@ $(document).ready(function() {
 
 
   //--------------------------Function calling -----------------------------------
+
   addMenu();
   editMenu();
   showOrder();
   navbar();
   openUserLoginForm();
   renderOrders();
-
 });
 

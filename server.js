@@ -171,9 +171,8 @@ app.post('/order', (req, res) => {
 
   app.post('/order/:id', (req, res) => {
     if(req.body) {
-      console.log("post request was succesful for orders", req.params.id);
       pool.query(`
-        select *
+        select *, orders_content.id as target
         from orders_content
         join menu_items on menu_item_id = menu_items.id
         where orders_id = $1
@@ -192,6 +191,27 @@ app.post('/order', (req, res) => {
       });
     }
     })
+
+    app.post('/order/item/:id', (req, res) => {
+      if(req.body) {
+        pool.query(`
+        DELETE FROM orders_content
+         WHERE id=$1;
+          `, [req.params.id])
+        .then(function (data) {
+          res.status(200)
+            .json({
+              status: 'success',
+              data: data.rows,
+              message: 'post request comming trougth'
+            });
+            console.log(data.rows)
+        })
+        .catch(function (err) {
+          return next(err);
+        });
+      }
+      })
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

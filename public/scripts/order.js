@@ -137,10 +137,14 @@ const detailHelper = function(rows) {
     menuDetail += `
       <tr ">
         <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.orders_id}</td>
-        <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
-        <td class="px-6 py-4 whitespace-nowrap"> ${row.prep_time}</td>
-        <td class="px-6 py-4 whitespace-nowrap"> ${row.price} </td>
-
+        <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.name}</td>
+        <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.prep_time}</td>
+        <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.price} </td>
+        <td class="cancel-button" >
+          <button onclick="cancelItem(${row.target})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+            Cancel
+          </button>
+         </td>
     `
   }
   return menuDetail;
@@ -151,23 +155,24 @@ const clearPopup = function() {
   $(".popup").empty();
 
 };
+
+
 const orderDetail = function(id) {
   if (id) {
+
     $.ajax({
-      url: `http://localhost:8080/order/${id}`,
+      url: `/order/${id}`,
       method: 'POST',
       success: function(result) {
         console.log(result.data)
         $(document).ready(function() {
           const $popUp =`
 
-          <div class="bg-white rounded md:w-1/3 w-1/2 border shadow-lg">
+          <div class="bg-white rounded md:w-2/3 w-full border shadow-lg">
             <div class="rounded-t bg-teal-500">
               <div class="relative py-3 px-2 flex">
              <span class="font-semibold text-white md:text-base text-sm">Popup Title</span>
-              <div class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg bg-white z-10 p-1 rounded-full p-2">
-                <img src="https://image.flaticon.com/icons/svg/151/151882.svg"/ class="w-2 h-2">
-              </div>
+
             </div>
           </div>
           <div class="flex flex-col pt-5">
@@ -190,6 +195,9 @@ const orderDetail = function(id) {
                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Price
                     </th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Action
+                    </th>
                   </tr>
                 <tread>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -204,7 +212,7 @@ const orderDetail = function(id) {
 
           <div class="p-2 flex justify-end rounded-b">
 
-            <button class="focus:outline-none py-1 px-2 md:py-2 md:px-3 w-24 bg-red-700 hover:bg-red-600 text-white rounded" onclick="clearPopup()" >Close</button>
+            <button class="focus:outline-none py-1 px-2 md:py-2 md:px-3 w-24 bg-red-700 hover:bg-red-600 text-white rounded" onclick="clearPopup()" >Apply and Close</button>
           </div>
         </div>`
         $(".popup").prepend($popUp);
@@ -219,6 +227,17 @@ const orderDetail = function(id) {
     });
 
   }
+}
+
+const cancelItem = function(id) {
+  console.log("Front end call to cancel this id :", id)
+  $.ajax({
+    url: `/order/item/${id}`,
+    method: 'POST',
+    success: function(result) {
+      console.log(result.data)
+    }
+  })
 }
 
 
