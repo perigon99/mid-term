@@ -254,10 +254,54 @@ const submitNewItem = function() {
 }
 
 //----------------------------------------------Edit menu logic ---------------------------------------------------------
+
+
+
+const editMenuHelper = function(id) {
+  console.log("receiving response from backend", id)
+  let menuEntries = `<script>
+const setActive = function(menuid) {
+  console.log("add button clicked", menuid)
+  $.post("/menu/" + menuid, function(data, status) {
+    console.log("add button clicked")
+  })
+}
+</script>`;
+  for (let row of id) {
+    console.log(row)
+    menuEntries += `
+
+    <tr id="picked:${row.id}">
+      <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
+      <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
+      <td class="px-6 py-4 whitespace-nowrap"> ${row.price}</td>
+      <td class="px-6 py-4 whitespace-nowrap"> ${row.prep_time}</td>
+      <td class="px-6 py-4 whitespace-nowrap"> ${row.type_plate}</td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <button  onclick="setActive(${row.id})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          ADD
+        </button>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <button onclick="orderCompleted(${row.id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Remove
+        </button>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <button onclick=""  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          Order Details
+      </button>
+      </td>
+    </tr>
+  ` };
+  return menuEntries;
+}
+
+
 const renderEditMenu = function() {
   $.get("/menu/all", function(data, status){
     menuItems = data.data.rows
-  const $body = `<div class="flex flex-col pt-5">
+  const $body = `<div class="flex flex-col pt-5 pl-5 pr-5 rounded">
   <script>  </script>
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -292,7 +336,7 @@ const renderEditMenu = function() {
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-              ${editMenuHelper(orderItems)}
+              // ${editMenuHelper(menuItems)}
             <!-- More items... -->
           </tbody>
           </table>
@@ -320,7 +364,7 @@ const renderEditMenu = function() {
   const editMenu = function() {
     $("#edit-menu").click(function() {
       clearBody();
-
+      renderEditMenu();
     })
   }
 

@@ -119,7 +119,7 @@ app.get('/menu', (req, res) => {
 }
 )
 
-//-----------------------------------Order query ------------------------------
+//-----------------------------------Owner side queries & routes ------------------------------
 app.get('/order', (req, res) => {
   console.log("post request was succesful for orders");
   pool.query(`
@@ -192,50 +192,84 @@ app.post('/order', (req, res) => {
     }
     })
 
-    app.post('/order/item/:id', (req, res) => {
-      if(req.body) {
-        pool.query(`
-        DELETE FROM orders_content
-         WHERE id=$1;
-          `, [req.params.id])
-        .then(function (data) {
-          res.status(200)
-            .json({
-              status: 'success',
-              data: data.rows,
-              message: 'post request comming trougth'
-            });
-            console.log(data.rows)
-        })
-        .catch(function (err) {
-          return next(err);
-        });
-      }
-      })
-
-      app.post('/menu/add', (req, res) => {
-        if(req.body) {
-
-          console.log(req.body)
-          const name = req.body.name;
-          const price = req.body.price;
-          const prep = req.body.prep;
-          const type = req.body.type;
-          pool.query(`
-          insert into menu_items (name, price, prep_time,type_plate)
-          values($1,$2,$3,$4)
-            `, [name,price,prep,type])
-          .then(function (data) {
-            res.status(200)
-              .json({
-                status: 'success',
-              });
-          })
-          .catch(function (err) {
-            return next(err);
+  app.post('/order/item/:id', (req, res) => {
+    if(req.body) {
+      pool.query(`
+      DELETE FROM orders_content
+        WHERE id=$1;
+        `, [req.params.id])
+      .then(function (data) {
+        res.status(200)
+          .json({
+            status: 'success',
+            data: data.rows,
+            message: 'post request comming trougth'
           });
-        }
-        })
+          console.log(data.rows)
+      })
+      .catch(function (err) {
+        return next(err);
+      });
+    }
+    })
+
+  app.post('/menu/add', (req, res) => {
+    if(req.body) {
+
+      const name = req.body.name;
+      const price = req.body.price;
+      const prep = req.body.prep;
+      const type = req.body.type;
+      pool.query(`
+      insert into menu_items (name, price, prep_time,type_plate)
+      values($1,$2,$3,$4)
+        `, [name,price,prep,type])
+      .then(function (data) {
+        res.status(200)
+          .json({
+            status: 'success',
+          });
+      })
+      .catch(function (err) {
+        return next(err);
+      });
+    }
+    })
+
+  app.get('/menu/all', (req, res) => {
+    pool.query(`
+    SELECT *
+    FROM menu_items
+    `)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ALL menu items'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+  }
+  )
+
+  app.post('/menu/:id', (req, res) => {
+    if(req.params) {
+      pool.query(`
+      UPDATE menu_items
+      SET is_active = true
+        WHERE id=$1;
+        `, [req.params.id])
+      .then(function (data) {
+        res.status(200)
+      })
+      .catch(function (err) {
+        return next(err);
+      });
+    }
+    })
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
