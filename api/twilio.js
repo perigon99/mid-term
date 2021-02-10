@@ -35,6 +35,6 @@ const sendText = function(msg, number, timeToSend, orderId, customer) {
   }
 }
 //comment this out once we start using it in other files
-sendText('This is order', twilioNumber, 1000, 2, true)
-sendText('An order has been received: Order ', twilioNumber, 1000, 1, false)
+// sendText('This is order', twilioNumber, 1000, 2, true)
+// sendText('An order has been received: Order ', twilioNumber, 1000, 1, false)
 exports.sendText = sendText;

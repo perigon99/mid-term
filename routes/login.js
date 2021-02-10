@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getNameWithEmail } = require('../server/database');
+const { getNameWithEmail, NewOrderId, getUserFromCookie } = require('../server/database');
+
+//webpage will have normal functionality even if not logged in
+//if they're not logged in, they can do everything, but pay
 
 module.exports = (db) => {
   router.post("/", (req, res) => {
@@ -12,6 +15,8 @@ module.exports = (db) => {
         if (user.password === password) {
           req.session.id = user.id;
           res.json({name: user.name});
+          // NewOrderId(user.id);
+          // getUserFromCookie(req.session.id)
         } else {
           res.json({result:false});
         }
