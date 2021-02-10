@@ -4,3 +4,10 @@
 .owner-body button:hover{
   transform: scale(1.05);
 }
+.modal {
+  transition: opacity 0.25s ease;
+}
+body.modal-active {
+  overflow-x: hidden;
+  overflow-y: visible !important;
+}
