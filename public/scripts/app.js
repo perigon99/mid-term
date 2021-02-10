@@ -1,3 +1,4 @@
+// const { response } = require("express");
 
 $(document).ready(function () {
   //-----------------------------Navbar component------------------------------------------------------
@@ -323,14 +324,25 @@ $(document).ready(function() {
 
 
 
-    cart.forEach(item => {
-      // console.log("items in the cart", item)
-      $("#food").append(`<div class="${foodItemCounter}">${item.name} - $${item.price} <button class="delete"> Delete </button> </div> `);
+    for (let row in cart) {
 
-      subtotalCounter += item.price;
+      console.log(cart[row]);
+      $("#food").append(`<div class="${foodItemCounter}">${cart[row].name} - $${cart[row].price} <button class="delete" data-index="${row}"> Delete </button> </div> `);
+
+      subtotalCounter += cart[row].price
       quantityCounter += 1;
       foodItemCounter += 1;
-    })
+
+    }
+
+    // cart.forEach(item => {
+    //   // console.log("items in the cart", item)
+    //   $("#food").append(`<div class="${foodItemCounter}">${item.name} - $${item.price} <button class="delete" id="${item.id}"> Delete </button> </div> `);
+
+    //   subtotalCounter += item.price;
+    //   quantityCounter += 1;
+    //   foodItemCounter += 1;
+    // })
 
     $("#stotal").text(subtotalCounter);
     $("#sub-total").text(subtotalCounter);
@@ -355,6 +367,21 @@ $(document).ready(function() {
 
     event.preventDefault();
 
+    // if (cart) {
+    //   console.log(cart);
+    //   $.ajax({
+    //     url:`/cart`,
+    //     method: 'DELETE',
+    //     contentType: "application/json",
+    //     data: JSON.stringify(cart),
+    //     success: function(result) {
+    //       console.log(result);
+    //     },
+    //     error: function(error) {
+    //       console.log(error);
+    //     }
+    //   })
+    // }
 
     // let foodItemId = parseInt(event.target.id);
 
@@ -365,7 +392,27 @@ $(document).ready(function() {
     //   cart.splice(index, 1)
     // }
 
+    // let apps = [{id:34,name:'My App',another:'thing'},{id:37,name:'My New App',another:'things'}];
+
+    // get index of object with id:37
+
+    // ======================================
+    // for (let row in cart) {
+
+    //   console.log(cart[row]);
+    //   $("#food").append(`<div class="${foodItemCounter}">${cart[row].name} - $${cart[row].price} <button class="delete" id="${row}"> Delete </button> </div> `);
+
+
+    console.log($(event.target).data("index"));
+
+    // let removeIndex = cart.map(function(item) { return item.id; }).indexOf($(event.target).data("index"));
+    // console.log(`deleted at position ${removeIndex}, ${cart}`)
+    cart.splice($(event.target).data("index"), 1);
+
+
     console.log("Item Deleted");
+    // ======================================
+
     $(event.target).parent().remove();
     // const formContent = $(this).serialize();
     // console.log(formContent);

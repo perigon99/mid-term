@@ -12,6 +12,7 @@ var twilioNumber = '+12247013494'
 
 //the customer will be a boolean, to check if we're sending a text to customer or restaurant
 const sendText = function(msg, number, timeToSend, orderId, customer) {
+  console.log("anything");
   if (customer) {
     setTimeout(function() {
       return client.messages.create({

@@ -15,8 +15,8 @@ module.exports = (db) => {
         if (user.password === password) {
           req.session.id = user.id;
           res.json({name: user.name});
-          NewOrderId(user.id);
-          getUserFromCookie(req.session.id)
+          // NewOrderId(user.id);
+          // getUserFromCookie(req.session.id)
         } else {
           res.json({result:false});
         }

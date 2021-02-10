@@ -25,7 +25,9 @@ const pool = new Pool({
   database: 'midterm',
   port:5432
 });
-const sendText = require('./api/twilio.js');
+const { sendText } = require('./api/twilio.js');
+console.log("This is the send text require", sendText );
+
 var twilioNumber = '+12247013494'
 const cookieSession = require("cookie-session");
 app.use(cookieSession({
@@ -201,7 +203,12 @@ app.post('/cart', (req, res) => {
               .then(function (result) {
                 console.log("THIS IS THE FINAL?:", result)
               })
+              .catch(function (err) {
+                console.log(err);
+              })
           }
+          sendText('This is order', twilioNumber, 1000, 2, true)
+          sendText('An order has been received: Order ', twilioNumber, 1000, 1, false)
         })
       })
   //     console.log(data);
@@ -224,6 +231,11 @@ app.post('/cart', (req, res) => {
 
 }
 )
+
+// app.delete('/cart', (req, res) => {
+//   console.log("Receiving from req", req.body);
+//   console.log("receiving from res", res.body);
+// })
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
