@@ -170,6 +170,88 @@ $(document).ready(function() {
       console.log("I clicked this shit");
     });
   });
+//--------------------------------Add items to the menu feature--------------------------------------------------
+
+
+
+const newMenuItem = function() {
+  const $newMenuItemForm = `
+<script>
+
+const submitNewItem = function() {
+  $("#new-item-form").submit(function(event){
+    event.preventDefault();
+    const formContent = $(this).serialize();
+    console.log(formContent);
+    $.ajax({
+      url: "/menu/add",
+      method: 'POST',
+      data: formContent,
+      success: function(result) {
+        $(".owner-body ").empty();
+      },
+      error: function(error) {
+      }
+    });
+  })
+}
+
+</script>
+  <div class=" flex items-center justify-center">
+        <form id="new-item-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+           <br>
+            <h1 class="block text-gray-700 font-bold mb-2 text-xl text-center">Create New Menu Element</h1>
+            <br>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                    Name
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="name" id="name" type="text" placeholder="Name of the plate or product" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
+                    Price
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="price" id="price" type="number" placeholder="Price" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="prep">
+                    Estimated time to prep
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="prep" id="prep" type="number" placeholder="Preparation time in minutes" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
+                    Type of the Element
+                </label>
+                  <select name="type" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true">
+                    <option value="entry">entry</option>
+                    <option value="main">main</option>
+                    <option value="dessert">dessert</option>
+                    <option value="wine">wine</option>
+                  </select>
+
+            </div>
+            <div class="flex items-center justify-between">
+                <button
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Add New Element
+                </button>
+            </div>
+            <div class="mb-4">
+        </form>
+    </div>
+<script>submitNewItem();</script>
+  `
+  $(".owner-body").prepend($newMenuItemForm);
+}
 
 
   //---------------------------- Body management -----------------------------------------------------------------
@@ -195,7 +277,7 @@ $(document).ready(function() {
   const addMenu = function() {
     $("#add-menu").click(function() {
       clearBody();
-
+      newMenuItem();
     })
   }
 
@@ -208,5 +290,6 @@ $(document).ready(function() {
   navbar();
   openUserLoginForm();
   renderOrders();
+
 });
 

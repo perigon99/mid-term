@@ -241,3 +241,4 @@ const cancelItem = function(id) {
 }
 
 
+//submitNewItem();

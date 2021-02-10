@@ -213,6 +213,30 @@ app.post('/order', (req, res) => {
       }
       })
 
+      app.post('/menu/add', (req, res) => {
+        if(req.body) {
+
+          console.log(req.body)
+          const name = req.body.name;
+          const price = req.body.price;
+          const prep = req.body.prep;
+          const type = req.body.type;
+          pool.query(`
+          insert into menu_items (name, price, prep_time,type_plate)
+          values($1,$2,$3,$4)
+            `, [name,price,prep,type])
+          .then(function (data) {
+            res.status(200)
+              .json({
+                status: 'success',
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          });
+        }
+        })
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
