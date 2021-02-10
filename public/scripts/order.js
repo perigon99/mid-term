@@ -81,11 +81,7 @@ const renderOrders = function() {
     $(".owner-body").prepend($body);
   });
 };
-$(function() {
-  $("li").on("click",function(event) {
-    console.log("I clicked this shit");
-  });
-});
+
 //----------------------------Views order content logic -----------------------------------------------------------------
 
 const clearTable = function() {
@@ -94,17 +90,7 @@ const clearTable = function() {
 };
 
 const smsID = function(telephone, id) {
-  // $.ajax({
-  //   url: `http://localhost:8080/sendsms`,
-  //   method: 'POST',
-  //   data: id,
-  //   success: function(result) {
-  //     console.log("everything went well. ", result);
-  //   },
-  //   error: function(error) {
-  //     console.log(error);
-  //   }
-  // });
+
   $(`#ready:${id}`).css("background-color","gray")
   console.log(telephone);
 };
@@ -119,16 +105,12 @@ const orderCompleted = function(id) {
         $(document).ready(function() {
           renderOrders();
         });
-
-      // location.reload(); //Need to make it only rerender the table
       },
       error: function(error) {
         console.log(error);
       }
     });
-
   }
-
 };
 
 const detailHelper = function(rows) {
@@ -148,18 +130,15 @@ const detailHelper = function(rows) {
     `
   }
   return menuDetail;
-
 }
 
 const clearPopup = function() {
   $(".popup").empty();
-
 };
 
 
 const orderDetail = function(id) {
   if (id) {
-
     $.ajax({
       url: `/order/${id}`,
       method: 'POST',
@@ -167,7 +146,6 @@ const orderDetail = function(id) {
         console.log(result.data)
         $(document).ready(function() {
           const $popUp =`
-
           <div class="bg-white rounded md:w-2/3 w-full border shadow-lg">
             <div class="rounded-t bg-teal-500">
               <div class="relative py-3 px-2 flex">
@@ -208,18 +186,12 @@ const orderDetail = function(id) {
             </div>
           </div>
           </div>
-
-
           <div class="p-2 flex justify-end rounded-b">
-
             <button class="focus:outline-none py-1 px-2 md:py-2 md:px-3 w-24 bg-red-700 hover:bg-red-600 text-white rounded" onclick="clearPopup()" >Apply and Close</button>
           </div>
         </div>`
         $(".popup").prepend($popUp);
-
         });
-
-      // location.reload(); //Need to make it only rerender the table
       },
       error: function(error) {
         console.log(error);

@@ -3,84 +3,6 @@ $(document).ready(function() {
 
 
 
-  const navbar = function() {
-    const userObject = false; //Retrive and pase cookie for user info if no user logged in set to false
-    let $conditionalRendering = "";
-    if (!userObject) {
-      $conditionalRendering = `
-        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">Log in</button>
-      `;
-    } else  {
-      $conditionalRendering = `
-        <li class="p-5">Welcome : ${userObject.name}</li>
-        <li class="p-5"><a >Logout</a></li>
-      `;
-    }
-    $("#navbar").prepend($conditionalRendering);
-  };
-
-  $('#login-form').submit(function(event) {
-    event.preventDefault();
-    const formContent = $(this).serialize();
-    console.log(formContent);
-    $.ajax({
-      url: `/login`,
-      method: 'POST',
-      data: formContent,
-      success: function(result) {
-        console.log("everything went well. ", result);
-        if (result.result) {
-          //do whatever you want
-          alert("The user is authenticated");
-          toggleModal();
-        } else {
-          //user is not authenticated
-          alert("user / password is not correct");
-        }
-      },
-      error: function(error) {
-      }
-    });
-    // .done(() => console.log('Its working!'))
-    // .fail(() => console.log('Error'))
-    // .always(() => console.log('Request Completed'));
-  });
-
-  const openUserLoginForm = function() {
-    let openmodal = document.querySelectorAll('.modal-open');
-    for (var i = 0; i < openmodal.length; i++) {
-      openmodal[i].addEventListener('click', function(event) {
-        event.preventDefault();
-        toggleModal();
-      });
-    }
-    const overlay = document.querySelector('.modal-overlay');
-    overlay.addEventListener('click', toggleModal);
-    let closemodal = document.querySelectorAll('.modal-close');
-    for (var i = 0; i < closemodal.length; i++) {
-      closemodal[i].addEventListener('click', toggleModal);
-    }
-    document.onkeydown = function(evt) {
-      evt = evt || window.event;
-      let isEscape = false;
-      if ("key" in evt) {
-        isEscape = (evt.key === "Escape" || evt.key === "Esc");
-      } else {
-        isEscape = (evt.keyCode === 27);
-      }
-      if (isEscape && document.body.classList.contains('modal-active')) {
-        toggleModal();
-      }
-    };
-    function toggleModal() {
-      const body = document.querySelector('body');
-      const modal = document.querySelector('.modal');
-      modal.classList.toggle('opacity-0');
-      modal.classList.toggle('pointer-events-none');
-      body.classList.toggle('modal-active');
-    }
-  };
-
 
   //--------------------------------Order table rendering logic ---------------------------------------
   const orderIdHelper = function(rows) {
@@ -192,11 +114,6 @@ window.submitNewItem = function() {
 
 const newMenuItem = function() {
   const $newMenuItemForm = `
-<script>
-
-
-
-</script>
   <div class=" flex items-center justify-center">
         <form id="new-item-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
            <br>
@@ -236,7 +153,6 @@ const newMenuItem = function() {
                     <option value="dessert">dessert</option>
                     <option value="wine">wine</option>
                   </select>
-
             </div>
             <div class="flex items-center justify-between">
                 <button
@@ -269,32 +185,24 @@ const statusButton = function(status) {
     </button>`
   }
 }
+
 window.setActive = function(id, button) {
-
   $.post("/menu/" + id, function(data, status) {
-
   })
 button.parentElement.parentElement.querySelector('.status').innerHTML =statusButton(true)
 }
-window.setInActive = function(id, button) {
 
+window.setInActive = function(id, button) {
   $.post("/menu/disable/" + id, function(data, status) {
   })
   button.parentElement.parentElement.querySelector('.status').innerHTML =statusButton(false)
 }
+
 const editMenuHelper = function(id) {
-  console.log("receiving response from backend", id)
-
-  let menuEntries = `
-    <script>
-
-
-    </script>`;
+  let menuEntries = "";
   for (let row of id) {
-
     console.log(row)
     menuEntries += `
-
     <tr id="picked:${row.id}">
       <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
@@ -318,7 +226,6 @@ const editMenuHelper = function(id) {
   ` };
   return menuEntries;
 }
-
 
 const renderEditMenu = function() {
   $.get("/menu/all", function(data, status){
@@ -370,8 +277,6 @@ const renderEditMenu = function() {
     <script></script>
     `;
     $(".owner-body").prepend($body);
-    $('.menu-button').click(function(){
-      console.log('I hate state management in Vanilla JS')})
   })
 }
 
@@ -379,8 +284,6 @@ const renderEditMenu = function() {
   const clearBody = function() {
     $(".owner-body ").empty();
   };
-
-
 
   const showOrder = function() {
     $("#show-order").click(function() {
@@ -403,9 +306,6 @@ const renderEditMenu = function() {
       newMenuItem();
     })
   }
-
-
-
 
   //--------------------------Function calling -----------------------------------
 
