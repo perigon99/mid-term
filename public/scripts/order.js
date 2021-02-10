@@ -99,11 +99,33 @@ const smsID = function(telephone, id) {
   $(`#ready:${id}`).css("background-color","gray")
   console.log(telephone);
 };
+
+
+const createOrder = function(cart) {
+  if (cart) {
+    console.log(cart);
+    $.ajax({
+      url: `http://localhost:8080/cart`,
+      method: 'POST',
+      data: cart,
+      success: function(result) {
+        console.log(result);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+
+  }
+
+};
+
+
 const orderCompleted = function(id) {
   if (id) {
     $.ajax({
       url: `http://localhost:8080/order`,
-      method: 'POST',
+      method: 'PUT',
       data: id.toString(),
       success: function(result) {
         clearTable();

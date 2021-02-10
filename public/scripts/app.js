@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
   //-----------------------------Navbar component------------------------------------------------------
   const navbar = function () {
@@ -61,7 +62,7 @@ $(document).ready(function () {
 
           loginButton.style.display = "none";
           logoutButton.style.display = "block";
-          $("#navbar").prepend(`Welcome: ${result.name}`)
+          $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`)
         } else{
           //user is not authenticated
           alert("user / password is not correct");
@@ -229,6 +230,29 @@ const renderMenu = function () {
 //-------------------------------- Check Cart Rendering ---------------------------------------------------
 
 let cart = [];
+
+const createOrder = function(cart) {
+  if (cart) {
+    console.log(cart);
+    $.ajax({
+      url: `/cart`,
+      method: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify(cart),
+      success: function(result) {
+        console.log(result);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+
+  }
+
+};
+
+
+
 // JSON.stringify(cart);
 
 // object => key = id , value = quantity
@@ -249,11 +273,19 @@ let cart = [];
     if (data) {
       cart.push(data[0])
       // cartInfo(cart);
+
     }
 
-    // console.log("Added to cart:" , cart);
+    console.log("Added to cart:" , cart);
+    // for (let item of cart) {
 
-    // console.log(`Added to cart: ${cart[0].name} , $${cart[0].price}`)
+    // console.log(`Added to cart: ${item.name} , $${item.price}`)
+
+    // if (cart.includes(item.name)) {
+    //   console.log("Is it working?");
+    // }
+    // }
+
   })
 
 
@@ -276,6 +308,8 @@ let cart = [];
   //   ("#testappend").append("<div>test</div>");
   // })
 
+let foodItemCounter = 0;
+
 
 $(document).ready(function() {
   $("#formButton").click(function() {
@@ -288,32 +322,99 @@ $(document).ready(function() {
     $("#food").empty();
 
 
+
     cart.forEach(item => {
       // console.log("items in the cart", item)
-      $("#food").append(`<div>${item.name} - $${item.price} </div>`);
+      $("#food").append(`<div class="${foodItemCounter}">${item.name} - $${item.price} <button class="delete"> Delete </button> </div> `);
 
       subtotalCounter += item.price;
       quantityCounter += 1;
+      foodItemCounter += 1;
     })
 
     $("#stotal").text(subtotalCounter);
     $("#sub-total").text(subtotalCounter);
-    $("#quantity").text(`Quantity: ${quantityCounter}`);
+    $("#quantity").text(`Total Quantity: ${quantityCounter}`);
 
     // console.log(subtotalCounter);
     // console.log(quantityCounter);
 
-
+  $("#Pay").click(function(event) {
+    event.preventDefault()
+    console.log("Is the cart in here?", cart);
+    createOrder(cart);
+  })
       // console.log("test name finder", item.name)
 
 
     // $("#testappend").append("<div>test</div>");
   });
+
+// ----------------------- Delete Rendering for Check Cart --------------------------
+  $("body").on("click", ".delete", function (event) {
+
+    event.preventDefault();
+
+
+    // let foodItemId = parseInt(event.target.id);
+
+    // let data = cart.filter(item => item.id === foodItemId)
+
+    // if (data) {
+    //   const index = cart.indexOf(item)
+    //   cart.splice(index, 1)
+    // }
+
+    console.log("Item Deleted");
+    $(event.target).parent().remove();
+    // const formContent = $(this).serialize();
+    // console.log(formContent);
+
+        // console.log("is it working?", result)
+        // $().remove();
+        // $(".delete").remove();
+
+  })
+
+
+  console.log("Food Counter:", foodItemCounter);
 });
+// ----------------------- Add Order Info to Database for User --------------------------
+
+
+// On click of menu item, link the orderID of the logged in user to the cart
+
+// On click of the menu item, add the menu item to the orders_content database;
+
+
+ // On click => send a POST request to our psql database ..
+ //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------------------------------------
 
 navbar();
 openUserLoginForm();
 renderMenu();
+
+
+
   $(document).ready( function () {
     const logoutButton = document.getElementById("logout-button");
     $(logoutButton).on('click', function() {
@@ -327,6 +428,7 @@ renderMenu();
             console.log(result);
             const loginButton = document.getElementById("login-button");
             const logoutButton = document.getElementById("logout-button");
+            $(".welcome-message").empty();
             loginButton.style.display = "block";
             logoutButton.style.display = "none";
           }
@@ -334,6 +436,7 @@ renderMenu();
       })
     });
   })
+
 })
 
 

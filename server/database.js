@@ -21,7 +21,7 @@ exports.addUser = addUser;
 //might want to add quantity into the table?
 const addItemToContent = function(orderId, menuId) {
   const queryString = `
-  INSERT INTO orders_content(order_id, menu_item_id)
+  INSERT INTO orders_content(orders_id, menu_item_id)
   VALUES ($1, $2)
   RETURNING *;
   `;
@@ -115,5 +115,76 @@ const totalCost = function(order, user) {
     })
 
 }
+exports.totalCost = totalCost;
+
+
+// app.post('/customerOrder', (req, res) => {
+//   if(req.body) {
+//     let rowID = req.body
+//     rowID = Object.keys(rowID)
+//     rowID = Number(rowID)
+//     console.log("post request was succesful for orders", rowID);
+//     pool.query(`
+//     INSERT INTO orders_content ()
+//     SET is_pickedup = true
+//     WHERE id = $1;
+//     `, [rowID])
+//     .then(function (data) {
+//       res.status(200)
+//         .json({
+//           status: 'success',
+//           data: data,
+//           message: 'post request comming trougth'
+//         });
+//     })
+//     .catch(function (err) {
+//       return next(err);
+//     });
+//   }
+
+// }
+// )
 
 exports.totalCost = totalCost;
+
+const NewOrderId = (id) => {
+  queryString = `
+  INSERT INTO orders(users_id)
+  VALUES ($1)
+  RETURNING *;
+  `
+  queryParams = [id];
+
+  return pool.query(queryString, queryParams)
+    .then(function (result) {
+      // console.log("it works", result.rows);
+      return(result.rows[0]);
+    })
+    .catch(err => console.log('error', err.stack))
+}
+
+exports.NewOrderId = NewOrderId;
+
+const getUserFromCookie = (id) => {
+  if (!id) {
+    return null;
+  } else {
+    const queryString = `
+    SELECT * FROM users
+    WHERE id = $1;
+    `;
+    const queryParams = [id];
+
+    return pool.query(queryString, queryParams)
+    .then (result => {
+      if (result.rows === []) {
+        return null;
+      } else {
+        console.log(result.rows[0]);
+        return result.rows[0];
+      }
+    })
+  }
+
+};
+exports.getUserFromCookie = getUserFromCookie;

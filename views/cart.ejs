@@ -6,13 +6,9 @@
   <h1>Your Order Below:</h1>
 
 
-<table id="checkout-cart" class="shopping-cart">
+<table id="checkout-cart" class="shopping-cart min-w-full divide-y divide-gray-200">
     <tbody>
       <p id="food">Food Item:  </p>
-
-      <!-- <p id="price">Price:  </p> -->
-
-      <p id="quantity"></p>
     </tbody>
 </table>
 
@@ -20,7 +16,7 @@
     <!-- <p id="taxes">
         <strong>Taxes</strong>: <span id="sshipping"></span>
     </p> -->
-
+    <p id="quantity"></p>
     <p id="total">
         <strong>Total: $ </strong> <span id="stotal"></span>
     </p>
@@ -28,7 +24,7 @@
 
 
 <form>
-  <input type="submit"class="btn" value="Pay Now" />
+  <button id="Pay" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded pl-5 p-1"> Pay Now </button>
 </form>
 
 

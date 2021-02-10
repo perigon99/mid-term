@@ -112,15 +112,9 @@ $(document).ready(function() {
   const renderOrders = function() {
   //Insert menu conditional rendering here
   //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
-<<<<<<< HEAD
   $.get("/order", function(data, status){
     const orderItems = data.data.rows;
     let $body =`<div class="flex flex-col pt-5">
-=======
-    $.get("http://localhost:8080/order", function(data, status) {
-      const orderItems = data.data.rows;
-      let $body = `<div class="flex flex-col pt-5">
->>>>>>> feat/remq
     <script>  </script>
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

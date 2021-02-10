@@ -11,7 +11,7 @@ values
 (2),
 (3);
 
-insert into menu_items (name, price, prep_time,type_plate, is_active)
+insert into menu_items (name, price, prep_time, type_plate, is_active)
 values
 ('Osso Bucco', 55, 60, 'main', 'true'),
 ('Foie gras with truffles', 25, 10, 'entry', 'true'),

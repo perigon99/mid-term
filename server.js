@@ -16,6 +16,8 @@ db.connect((err) => {
   if (err) throw new Error(err);
   console.log('connected!');
 });
+const { NewOrderId, getUserFromCookie, addItemToContent} = require('./server/database');
+
 const pool = new Pool({
   user: 'labber',
   password: 'labber',
@@ -23,14 +25,23 @@ const pool = new Pool({
   database: 'midterm',
   port:5432
 });
-// app.use(bodyParser.urlencoded({extended: true}));
+const sendText = require('./api/twilio.js');
+var twilioNumber = '+12247013494'
+const cookieSession = require("cookie-session");
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+app.use(bodyParser.urlencoded({extended: true}));
 // const toggleModal = require('scriptstwo.js');
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+// app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -42,9 +53,16 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+
+const loginRoutes = require("./routes/login");
+const logoutRoutes = require("./routes/logout")
+
 const { response } = require('express');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
+app.use("/login", loginRoutes(db));
+app.use("/logout", logoutRoutes(db));
+
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
@@ -74,29 +92,6 @@ app.get("/", (req, res) => {
     res.render("index");
   }
 
-});
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-// app.get("/menu", (req, res) => {
-//   console.log("This page exists");
-//   res.send(getUsers)
-// })
-app.post('/login', (req, res) => {
-  console.log(req.body);
-  pool.query(
-    `
-  SELECT id, name
-  FROM users WHERE email = $1 AND password = $2`, [req.body.email.toLowerCase(), req.body.password]
-  )
-  .then((result)=>{
-    if (result.rows[0]) {
-      res.json({result: true});
-    } else {
-      res.json({result: false})
-    }
-  })
-  .catch(err => console.log('error', err.stack))
 });
 app.get('/menu', (req, res) => {
   console.log(req.body)
@@ -144,7 +139,7 @@ app.get('/order', (req, res) => {
 }
 )
 
-app.post('/order', (req, res) => {
+app.put('/order', (req, res) => {
   if(req.body) {
     let rowID = req.body
     rowID = Object.keys(rowID)
@@ -167,6 +162,65 @@ app.post('/order', (req, res) => {
       return next(err);
     });
   }
+}
+)
+
+app.post('/cart', (req, res) => {
+
+    console.log("Backend receiving req",req.body);
+
+
+    // NewOrderId(user.id);
+
+    // for each row, add the items
+
+    // rowID = Object.keys(rowID)
+    // rowID = Number(rowID)
+
+    // pool.query(`
+    //   INSERT INTO orders (users_id)
+    //   VALUES($2) RETURNING id;
+    // `, [rowID])
+   // .then(function (data) {
+     // get user_id from the cookie
+//----------------------------------instructions ----------------------------------------------
+     // get user_id from cookie =>> do the first query to create a new order with the user id
+     //first query INSERT INTO orders (users_id)
+      // VALUES(2) RETURNING id;
+     //then from the response data from the query 1
+     //do : INSERT INTO orders_content (menu_item_id, orders_id)
+     //VALUES(id of the menu item,the value that will be return by firt query);
+//----------------------------------instruction
+     getUserFromCookie(req.session.id)
+      .then (result => {
+        NewOrderId(result.id)
+        .then (result => {
+          console.log("THIS ONE IS THE RESULT:", result.id);
+          for (item of req.body) {
+            addItemToContent(result.id, item.id)
+              .then(function (result) {
+                console.log("THIS IS THE FINAL?:", result)
+              })
+          }
+        })
+      })
+  //     console.log(data);
+  //     pool.query(`
+  //     INSERT INTO orders (users_id)
+  //     VALUES($2) RETURNING id;
+  //   `, [user_id])
+  //  .then(function (data) {
+
+      res.status(200)
+        .json({
+          status: 'success',
+          data: "data",
+          message: 'post request comming trougth'
+        });
+    // })
+    // .catch(function (err) {
+    //   return console.log(err);
+    // });
 
 }
 )
