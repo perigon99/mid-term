@@ -88,7 +88,7 @@ const getUsers = () => {
   });
 }
 app.get("/", (req, res) => {
-  let isAdmin = true;
+  let isAdmin = false;
   if(isAdmin) {
     res.render("owner")
   } else {
@@ -117,12 +117,7 @@ app.get('/menu', (req, res) => {
 }
 )
 
-<<<<<<< HEAD
 //-----------------------------------Owner side queries & routes ------------------------------
-=======
-//-----------------------------------Order query ------------------------------
-
->>>>>>> frontend/check_cart_part_two
 app.get('/order', (req, res) => {
   console.log("post request was succesful for orders");
   pool.query(`
@@ -147,7 +142,6 @@ app.get('/order', (req, res) => {
 }
 )
 
-<<<<<<< HEAD
 app.post('/order', (req, res) => {
   if(req.body) {
     let rowID = req.body
@@ -290,57 +284,6 @@ app.post('/order', (req, res) => {
         });
       }
       })
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> frontend/check_cart_part_two
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
