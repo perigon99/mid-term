@@ -139,7 +139,7 @@ app.get('/order', (req, res) => {
       });
   })
   .catch(function (err) {
-    return next(err);
+    return console.log(err);
   });
 }
 )
@@ -164,7 +164,7 @@ app.post('/order', (req, res) => {
         });
     })
     .catch(function (err) {
-      return next(err);
+      return console.log(err);
     });
   }
   })
@@ -187,7 +187,7 @@ app.post('/order', (req, res) => {
           console.log(data.rows)
       })
       .catch(function (err) {
-        return next(err);
+        return console.log(err);
       });
     }
     })
@@ -208,7 +208,7 @@ app.post('/order', (req, res) => {
           console.log(data.rows)
       })
       .catch(function (err) {
-        return next(err);
+        return console.log(err);
       });
     }
     })
@@ -231,7 +231,7 @@ app.post('/order', (req, res) => {
           });
       })
       .catch(function (err) {
-        return next(err);
+        return console.log(err);
       });
     }
     })
@@ -250,7 +250,7 @@ app.post('/order', (req, res) => {
         });
     })
     .catch(function (err) {
-      return next(err);
+      return console.log(err);
     });
   }
   )
@@ -266,10 +266,26 @@ app.post('/order', (req, res) => {
         res.status(200)
       })
       .catch(function (err) {
-        return next(err);
+        return console.log(err);
       });
     }
     })
+    app.post('/menu/disable/:id', (req, res) => {
+
+      if(req.params) {
+        pool.query(`
+        UPDATE menu_items
+        SET is_active = false
+          WHERE id=$1;
+          `, [req.params.id])
+        .then(function (data) {
+          res.status(200)
+        })
+        .catch(function (err) {
+          return console.log(err);
+        });
+      }
+      })
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

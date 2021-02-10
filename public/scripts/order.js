@@ -11,19 +11,19 @@ const orderIdHelper = function(rows) {
       <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          SMS
-        </button>
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="orderCompleted(${row.id})"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Remove from => queue
-        </button>
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap">
-      <button onclick="orderDetail(${row.id})"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Order Details
-      </button>
+      <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      SMS
+    </button>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <button onclick="orderCompleted(${row.id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+      Remove from queue
+    </button>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+  <button onclick="orderDetail(${row.id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+    Order Details
+  </button>
       </td>
       </tr>
       `;

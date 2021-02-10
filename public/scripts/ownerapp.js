@@ -172,13 +172,7 @@ $(document).ready(function() {
   });
 //--------------------------------Add items to the menu feature--------------------------------------------------
 
-
-
-const newMenuItem = function() {
-  const $newMenuItemForm = `
-<script>
-
-const submitNewItem = function() {
+window.submitNewItem = function() {
   $("#new-item-form").submit(function(event){
     event.preventDefault();
     const formContent = $(this).serialize();
@@ -195,6 +189,12 @@ const submitNewItem = function() {
     });
   })
 }
+
+const newMenuItem = function() {
+  const $newMenuItemForm = `
+<script>
+
+
 
 </script>
   <div class=" flex items-center justify-center">
@@ -254,20 +254,44 @@ const submitNewItem = function() {
 }
 
 //----------------------------------------------Edit menu logic ---------------------------------------------------------
+const statusButton = function(status) {
+  if (status) {
+    return `
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+    On menu
+    </button>`
+  }
+  if(!status)
+  {
+    return `
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+    Not on menu
+    </button>`
+  }
+}
+window.setActive = function(id, button) {
 
+  $.post("/menu/" + id, function(data, status) {
 
+  })
+button.parentElement.parentElement.querySelector('.status').innerHTML =statusButton(true)
+}
+window.setInActive = function(id, button) {
 
+  $.post("/menu/disable/" + id, function(data, status) {
+  })
+  button.parentElement.parentElement.querySelector('.status').innerHTML =statusButton(false)
+}
 const editMenuHelper = function(id) {
   console.log("receiving response from backend", id)
-  let menuEntries = `<script>
-const setActive = function(menuid) {
-  console.log("add button clicked", menuid)
-  $.post("/menu/" + menuid, function(data, status) {
-    console.log("add button clicked")
-  })
-}
-</script>`;
+
+  let menuEntries = `
+    <script>
+
+
+    </script>`;
   for (let row of id) {
+
     console.log(row)
     menuEntries += `
 
@@ -278,19 +302,17 @@ const setActive = function(menuid) {
       <td class="px-6 py-4 whitespace-nowrap"> ${row.prep_time}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.type_plate}</td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button  onclick="setActive(${row.id})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="setActive(${row.id},this)" class="menu-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           ADD
         </button>
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="orderCompleted(${row.id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="setInActive(${row.id},this)"  class="menu-button bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
           Remove
         </button>
       </td>
-      <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick=""  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Order Details
-      </button>
+      <td class="status px-6 py-4 whitespace-nowrap">
+       ${statusButton(row.is_active)}
       </td>
     </tr>
   ` };
@@ -343,8 +365,13 @@ const renderEditMenu = function() {
           </div>
         </div>
       </div>
-    </div>`;
+    </div>
+
+    <script></script>
+    `;
     $(".owner-body").prepend($body);
+    $('.menu-button').click(function(){
+      console.log('I hate state management in Vanilla JS')})
   })
 }
 
@@ -352,6 +379,8 @@ const renderEditMenu = function() {
   const clearBody = function() {
     $(".owner-body ").empty();
   };
+
+
 
   const showOrder = function() {
     $("#show-order").click(function() {
@@ -376,6 +405,8 @@ const renderEditMenu = function() {
   }
 
 
+
+
   //--------------------------Function calling -----------------------------------
 
   addMenu();
@@ -386,4 +417,6 @@ const renderEditMenu = function() {
   renderOrders();
 
 });
+
+
 
