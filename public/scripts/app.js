@@ -267,14 +267,7 @@ $(document).ready(function() {
           console.log(result);
           if (result) {
             console.log(result);
-            setTimeout(function(){// wait for 5 secs(2)
-              location.reload(); // then reload the page.(3)
-            })
-            // const loginButton = document.getElementById("login-button");
-            // const logoutButton = document.getElementById("logout-button");
-            // $(".welcome-message").empty();
-            // loginButton.style.display = "block";
-            // logoutButton.style.display = "none";
+            location.reload();
           }
         }
       });

@@ -303,6 +303,23 @@ window.renderEditMenu = function() {
     })
   }
 
+
+  //logout call//
+
+  $(document).ready(function() {
+    const logoutButton = document.getElementById("button-logout");
+    $(logoutButton).on('click', function () {
+      alert("Handle for logout called");
+      $.ajax({
+        url: '/logout',
+        method: 'POST',
+        success: function(result) {
+          console.log(result);
+          location.reload();
+        }
+      })
+    })
+  })
   //--------------------------Function calling -----------------------------------
 
   addMenu();
