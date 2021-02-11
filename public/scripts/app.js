@@ -211,6 +211,10 @@ $(document).ready(function() {
     }
   };
 
+
+  let quantityCounter = 0;
+  // let subtotalCounter = 0;
+
   $(document).on("click", ".addCart", function(event) {
     let foodItemId = parseInt(event.target.id);
     let data = menuItems.filter(item => item.id === foodItemId);
@@ -220,33 +224,82 @@ $(document).ready(function() {
     $(this).css("color", "rgba(245, 158, 11)")
     // Remove this console log at end of project:
     console.log("Added to cart:" , cart);
-  });
 
-  let quantityCounter = 0;
+    let subtotalCounter = 0;
+    quantityCounter += 1;
+
+    $("#food").empty();
+
+    for (let row in cart) {
+      $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-0 px-1 rounded" data-index="${row}">X</button> </div> `);
+      subtotalCounter += cart[row].price;
+      // quantityCounter += 1;
+      $("#stotal").text(subtotalCounter);
+      $("#sub-total").text(subtotalCounter);
+      $("#quantity").text(`Total Quantity: ${quantityCounter}`);
+    }
+
+    // $("#stotal").text(subtotalCounter);
+    // $("#sub-total").text(subtotalCounter);
+    // $("#quantity").text(`Total Quantity: ${quantityCounter}`);
+
+    $("#Pay").click(function(event) {
+        event.preventDefault();
+        $("#food").empty();
+        $("#quantity").empty();
+        $("#total").empty();
+        console.log("Final Order sent to backend:", cart);
+        createOrder(cart);
+      })
+
+});
+
+  // let quantityCounter = 0;
   // let subtotalCounter = 0;
 
   $(document).ready(function() {
     $("#formButton").click(function() {
       $("#form1").toggle();
       // Remove this console log at end of project:
-      console.log("items in cart:", cart);
-      let subtotalCounter = 0;
+      // console.log("items in cart:", cart);
+      // let subtotalCounter = 0;
 
-      $("#food").empty();
-      for (let row in cart) {
-        $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-1 px-1 rounded" data-index="${row}">X</button> </div> `);
-        subtotalCounter += cart[row].price;
-        quantityCounter += 1;
-      }
-      $("#stotal").text(subtotalCounter);
-      $("#sub-total").text(subtotalCounter);
-      $("#quantity").text(`Total Quantity: ${quantityCounter}`);
-      $("#Pay").click(function(event) {
-        event.preventDefault();
-        console.log("Final Order sent to backend:", cart);
-        createOrder(cart);
+      // $("#food").empty();
+      // for (let row in cart) {
+      //   $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-0 px-1 rounded" data-index="${row}">X</button> </div> `);
+      //   subtotalCounter += cart[row].price;
+      //   quantityCounter += 1;
+      // }
+      // $("#stotal").text(subtotalCounter);
+      // $("#sub-total").text(subtotalCounter);
+      // $("#quantity").text(`Total Quantity: ${quantityCounter}`);
+      // $("#Pay").click(function(event) {
+      //   event.preventDefault();
+      //   console.log("Final Order sent to backend:", cart);
+      //   createOrder(cart);
       });
     });
+
+
+
+  // $(document).on('click', '.addCart', function(e) {
+
+  //   let subtotalCounter = 0;
+
+  //   $("#food").empty();
+
+  //   for (let row in cart) {
+  //     $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-0 px-1 rounded" data-index="${row}">X</button> </div> `);
+  //     subtotalCounter += cart[row].price;
+  //     quantityCounter += 1;
+
+  //     $("#stotal").text(subtotalCounter);
+  //     $("#sub-total").text(subtotalCounter);
+  //     $("#quantity").text(`Total Quantity: ${quantityCounter}`);
+  // }
+
+// });
+
 
     // ----------------------- Delete Rendering for Check Cart --------------------------
 
@@ -254,7 +307,7 @@ $(document).ready(function() {
       event.preventDefault();
 
       // to do , change menu item to color black on click of delete
-      // $("#color-change").css("color", "black")
+      $(".addCart").css("color", "black")
       const $parent = $(this).parent();
 
       const siblingPriceString = $parent.html().split("\$")[1].split("\<")[0];
@@ -270,7 +323,7 @@ $(document).ready(function() {
       $(event.target).parent().remove();
       cart.splice($(event.target).data("index"), 1);
     });
-  });
+
 
   //--------------------------------Logout rendering----------------------------------------------
 
