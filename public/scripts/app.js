@@ -190,7 +190,7 @@ $(document).ready(function() {
   //-------------------------------- Check Cart Rendering ---------------------------------------------------
 
   // Stretch: object => key = id , value = quantity : displaying the cart => lookup the key in this object => food item
-  let cart = [];
+  const cart = [];
 
   const createOrder = function(cart) {
     if (cart) {
@@ -222,6 +222,8 @@ $(document).ready(function() {
     console.log("Added to cart:" , cart);
   });
 
+  let quantityCounter = 0;
+  let subtotalCounter = 0;
 
   $(document).ready(function() {
     $("#formButton").click(function() {
@@ -230,14 +232,15 @@ $(document).ready(function() {
       console.log("items in cart:", cart);
 
       let subtotalCounter = 0;
-      let quantityCounter = 0;
+      // let quantityCounter = 0;
 
       $("#food").empty();
 
       for (let row in cart) {
 
         // console.log(cart[row]);
-        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete" data-index="${row}"> Delete </button> </div> `);
+        // $("#food").append(`<div class="price">${cart[row].price}<button class="delete" data-index="${row}"> Delete </button> </div> `);
+        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button id="cartFoodItem-${row}" class="delete" data-index="${row}"> Delete </button> </div> `);
 
         subtotalCounter += cart[row].price;
         quantityCounter += 1;
@@ -252,16 +255,49 @@ $(document).ready(function() {
         console.log("Final Order sent to backend:", cart);
         createOrder(cart);
       });
+
     });
 
+
+
+
     // ----------------------- Delete Rendering for Check Cart --------------------------
+
+
+
+
     $("body").on("click", ".delete", function(event) {
 
       event.preventDefault();
 
-      cart.splice($(event.target).data("index"), 1);
+      const $parent = $(this).parent();
+
+      // const numOfItemsInCart = $(this).parent().parent()[0].children.length;
+
+      // for (let key in numOfItemsInCart) {
+      //   console.log(numOfItemsInCart["0"]);
+      // }
+
+      // console.log($(this).parent().parent()[0].children.length);
+
+      // const $sibling = $(this).siblings();
+
+      const siblingPriceString = $parent.html().split("\$")[1].split("\<")[0];
+      const itemPrice = parseInt(siblingPriceString);
+
+      const subTotal = parseInt(getSubtotal());
+      // console.log(subtotalCounter);
+      // subtotalCounter -= itemPrice;
+
+
+      $("#quantity").text(`Total Quantity: ${cart.length - 1}`);
+      // $("#stotal").text(subtotalCounter);
+      $("#stotal").text(subTotal - itemPrice);
+      $("#sub-total").text(getSubtotal());
+
 
       $(event.target).parent().remove();
+      cart.splice($(event.target).data("index"), 1);
     });
 
   });
@@ -296,6 +332,12 @@ $(document).ready(function() {
 });
 
 //--------------------------------Used to render the modal form ----------------------------------------------
+
+
+const getSubtotal = function () {
+  return $("#stotal").text();
+}
+
 
 function toggleModal() {
   const body = document.querySelector('body');
