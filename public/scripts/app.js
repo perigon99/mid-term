@@ -1,19 +1,5 @@
 $(document).ready(function() {
   //-----------------------------Navbar Component / Login Rendering ------------------------------------------------------
-  const navbar = function() {
-    const userObject = false; //Retrieve and parse cookie for user info if no user logged in set to false
-    let $conditionalRendering = "";
-    if (!userObject) {
-      $conditionalRendering = `
-      `;
-    } else  {
-      $conditionalRendering = `
-        <li class="p-5">Welcome : ${userObject.name}</li>
-        <li class="p-5"><a >Logout</a></li>
-      `;
-    }
-    $("#navbar").prepend($conditionalRendering);
-  };
   //-------------------------------- Login Authentication: POST ------------------------------------------------
   $('#login-form').submit(function(event) {
     event.preventDefault();
@@ -303,7 +289,6 @@ $(document).ready(function() {
 
   }
 
-  navbar();
   openUserLoginForm();
   renderMenu();
   scrollToBottom();
