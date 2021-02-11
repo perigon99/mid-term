@@ -60,7 +60,6 @@ const loginRoutes = require("./routes/login");
 const logoutRoutes = require("./routes/logout")
 const adminsmsRoutes =require("./routes/admin")
 const orderRoutes = require("./routes/order")
-const menuRoutes = require("./routes/menu");
 
 const { response } = require('express');
 // Mount all resource routes
@@ -70,7 +69,6 @@ app.use("/logout", logoutRoutes(db));
 app.use("/cart", cartRoutes(db));
 app.use("/owner/sms/:id", adminsmsRoutes(db));
 app.use("/order", orderRoutes(db));
-app.use("/menu", menuRoutes(db));
 
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
@@ -238,9 +236,6 @@ app.post('/admin/order', (req, res) => {
         });
       }
       })
-
-
-
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
