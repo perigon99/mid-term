@@ -5,13 +5,13 @@ const orderIdHelper = function(rows) {
     time = time.substr(11, 5);
     console.log("inside orderIdhelper function", row)
     menuEntries += `
-      <tr id="picked:${row.id}">
+      <tr id="picked:${row.order_id}">
         <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
         <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
         <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
         <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
         <td class="px-6 py-4 whitespace-nowrap">
-          <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button onclick="smsID(${row.telephone}, ${row.order_id})" id="ready:${row.order_id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             SMS
           </button>
         </td>
@@ -216,6 +216,4 @@ const orderDetail = function(id) {
 
   }
 }
-
-
 
