@@ -90,9 +90,15 @@ const getUsers = () => {
   });
 }
 app.get("/", (req, res) => {
-  let isAdmin = false;
-  if(isAdmin) {
-    res.render("owner")
+  if (req.session.id) {
+    getUserFromCookie(req.session.id)
+    .then (user => {
+      if(user.is_admin){
+        res.render("owner");
+      } else {
+        res.render("index");
+      }
+    })
   } else {
     res.render("index");
   }

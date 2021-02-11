@@ -32,7 +32,7 @@ const sendText = function(msg, number, timeToSend, orderId, customer) {
         from: number // From a valid Twilio number
     })
     .then((message) => console.log(message.sid));
-    })
+    }, timeToSend)
   }
 }
 

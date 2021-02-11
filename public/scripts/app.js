@@ -1,17 +1,24 @@
 $(document).ready(function() {
+  console.log("these are the cookies:", document.cookie);
   //-----------------------------Navbar Component / Login Rendering ------------------------------------------------------
   const navbar = function() {
-    const userObject = false; //Retrive and parse cookie for user info if no user logged in set to false
+
+    const userObject = false; //Retrieve and parse cookie for user info if no user logged in set to false
     let $conditionalRendering = "";
     if (!userObject) {
       $conditionalRendering = `
+<<<<<<< HEAD
         <button class="modal-open bg-transparent w-32 border border-gray-300 hover:border-indigo-500 text-gray-300 hover:text-indigo-500 font-bold m-8 rounded-full" id="login-button">Log in</button>
         <button class="bg-transparent border w-32 border-gray-300 hover:border-indigo-500 text-gray-300 hover:text-indigo-500 font-bold m-8 rounded-full hidden" id="logout-button" >Log out</button>
+=======
+        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full" id="login-button">Log in</button>
+>>>>>>> login/template_vars
       `;
     } else  {
       $conditionalRendering = `
         <li class="p-5">Welcome : ${userObject.name}</li>
         <li class="p-5"><a >Logout</a></li>
+        <button class="bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full hidden" id="logout-button" >Log out</button>
       `;
     }
     $("#navbar").prepend($conditionalRendering);
@@ -35,6 +42,9 @@ $(document).ready(function() {
           loginButton.style.display = "none";
           logoutButton.style.display = "block";
           $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`);
+          setTimeout(function(){// wait for 5 secs(2)
+            location.reload(); // then reload the page.(3)
+       }, 100);
         } else {
           //user is not authenticated
           alert("user / password is not correct");
