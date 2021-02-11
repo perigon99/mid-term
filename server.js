@@ -96,7 +96,10 @@ app.get("/", (req, res) => {
       if(user.is_admin){
         res.render("owner");
       } else {
-        res.render("index");
+        const templateVars = {
+          user: req.session.id
+        }
+        res.render("index", templateVars);
       }
     })
   } else {
