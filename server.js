@@ -91,19 +91,23 @@ const getUsers = () => {
 }
 app.get("/", (req, res) => {
   if (req.session.id) {
+
     getUserFromCookie(req.session.id)
     .then (user => {
       if(user.is_admin){
         res.render("owner");
       } else {
         const templateVars = {
-          user: req.session.id
+          logged_in: true,
         }
         res.render("index", templateVars);
       }
     })
   } else {
-    res.render("index");
+    const templateVars = {
+      logged_in: false
+    }
+    res.render("index", templateVars);
   }
 
 });

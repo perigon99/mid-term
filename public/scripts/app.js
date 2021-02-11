@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  //-----------------------------Navbar Component / Login Rendering ------------------------------------------------------
   //-------------------------------- Login Authentication: POST ------------------------------------------------
   $('#login-form').submit(function(event) {
     event.preventDefault();
