@@ -34,7 +34,20 @@ const sendText = function(msg, number, timeToSend, orderId, customer) {
     })
   }
 }
+
+
+const smsSender = function(msg,telephone) {
+  setTimeout(function() {
+    return client.messages.create({
+      body: `'From LUX' : ${msg}`,
+      to: telephone,
+      from: '+12247013494'
+    })
+    .then((message) => console.log(message.sid));
+  })
+}
 //comment this out once we start using it in other files
 // sendText('This is order', twilioNumber, 1000, 2, true)
 // sendText('An order has been received: Order ', twilioNumber, 1000, 1, false)
 exports.sendText = sendText;
+exports.smsSender = smsSender;

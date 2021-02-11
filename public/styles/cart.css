@@ -1,11 +1,9 @@
-.backdrop {
-  background-color: #66a6b4;
-  color: floralwhite;
+.cart-style {
+  background-image: url("../images/texture06.jpg");
+  opacity: 0.85;
 }
 
-.delete {
-  color: #00ff14
-}
+
 
 h1, #food, #quantity, #total, #Pay {
   display: flex;
@@ -26,9 +24,17 @@ h1, #food, #quantity, #total, #Pay {
 
 
 #total {
-color: #244751;
-font-size: x-large;
-font-weight: bold;
+  color: #244751;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.paynow {
+  text-align: -webkit-center;
+}
+
+.cart-container {
+  text-align: -webkit-center;
 }
 
 

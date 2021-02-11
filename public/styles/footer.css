@@ -1,15 +1,17 @@
-div {
-  margin-top: 1.5em;
-}
+
 
 .footer-elements {
-    display: flex;
-    justify-content: space-between;
-    color: floralwhite;
+  display: flex;
+  justify-content: space-between;
+  color: floralwhite;
 }
 
 #form1 {
-
   display:none;
+}
 
-  }
+footer {
+  position: fixed;
+  bottom: 1rem;
+  width: 75vw;
+}

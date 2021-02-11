@@ -1,30 +1,26 @@
 <link rel="stylesheet" href="/styles/cart.css" type="text/css" />
-
-<div class="backdrop">
-<form id="form1">
-
-  <h1 id="title">Your Order Below:</h1>
-
-
-<table id="checkout-cart" class="shopping-cart min-w-full divide-y divide-gray-200">
-    <tbody>
-      <p id="food">Food Item:  </p>
-    </tbody>
-</table>
-
-<div id="pricing">
-
-    <div id="quantity"></div>
-    <div id="total">
-        <strong>Total: $ </strong> <span id="stotal"></span>
+<div class="cart-container mb-40">
+  <div class="backdrop w-6/12 mt-5">
+    <div class="cart-style rounded">
+    <form id="form1" >
+        <h1 id="title">Your Order Below:</h1>
+        <table id="checkout-cart" class="shopping-cart  divide-y divide-gray-200">
+            <tbody>
+              <p id="food">Food Item:  </p>
+            </tbody>
+        </table>
+        <div id="pricing">
+            <div id="quantity"></div>
+            <div id="total">
+                <strong>Total: $ </strong> <span id="stotal"></span>
+            </div>
+        </div>
+        <form>
+          <div class="paynow p-4">
+            <button id="Pay" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded pl-5 p-1 "><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp; Pay Now &nbsp;&nbsp;<i class="fas fa-dollar-sign"></i></button>
+          </div>
+        </form>
+      </form>
     </div>
-</div>
-
-
-<form>
-  <button id="Pay" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded pl-5 p-1"> Pay Now </button>
-</form>
-
-
-</form>
+  </div>
 </div>
