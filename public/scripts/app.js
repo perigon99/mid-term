@@ -13,10 +13,6 @@ $(document).ready(function() {
         if (result.name) {
           alert("The user is authenticated");
           toggleModal();
-          // const loginButton = document.getElementById("login-button");
-          // const logoutButton = document.getElementById("logout-button");
-          // loginButton.style.display = "none";
-          // logoutButton.style.display = "block";
           $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`);
           setTimeout(function(){// wait for 5 secs(2)
             location.reload(); // then reload the page.(3)
@@ -271,6 +267,9 @@ $(document).ready(function() {
           console.log(result);
           if (result) {
             console.log(result);
+            setTimeout(function(){// wait for 5 secs(2)
+              location.reload(); // then reload the page.(3)
+            })
             // const loginButton = document.getElementById("login-button");
             // const logoutButton = document.getElementById("logout-button");
             // $(".welcome-message").empty();

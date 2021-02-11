@@ -99,18 +99,19 @@ app.get("/", (req, res) => {
       } else {
         const templateVars = {
           logged_in: true,
+          username: user.name
         }
         res.render("index", templateVars);
       }
     })
   } else {
     const templateVars = {
-      logged_in: false
+      logged_in: false,
     }
     res.render("index", templateVars);
   }
-
 });
+
 app.get('/menu', (req, res) => {
   console.log(req.body)
   console.log("post request was succesful for menu");
