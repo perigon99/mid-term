@@ -28,7 +28,7 @@ $(document).ready(function() {
             </button>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-          <button onclick="orderDetail(${row.id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          <button onclick="orderDetail(${row.order_id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             Order Details
           </button>
           </td>
@@ -40,7 +40,7 @@ $(document).ready(function() {
 
   //Render a table with all curent orders
   const renderOrders = function() {
-    $.get("/order", function(data, status) {
+    $.get("/admin/order", function(data, status) {
       const orderItems = data.data.rows;
       let $body = `
       <div class="flex flex-col pt-5">
@@ -93,7 +93,7 @@ window.submitNewItem = function() {
     event.preventDefault();
     const formContent = $(this).serialize();
     $.ajax({
-      url: "/menu/add",
+      url: "/admin/menu/add",
       method: 'POST',
       data: formContent,
       success: function(result) {
@@ -295,6 +295,7 @@ window.renderEditMenu = function() {
     })
   }
   window.cancelItem = function(id) {
+    console.log(id)
     $.ajax({
       url: `/order/item/${id}`,
       method: 'POST',
@@ -303,23 +304,6 @@ window.renderEditMenu = function() {
     })
   }
 
-
-  //logout call//
-
-  $(document).ready(function() {
-    const logoutButton = document.getElementById("button-logout");
-    $(logoutButton).on('click', function () {
-      alert("Handle for logout called");
-      $.ajax({
-        url: '/logout',
-        method: 'POST',
-        success: function(result) {
-          console.log(result);
-          location.reload();
-        }
-      })
-    })
-  })
   //--------------------------Function calling -----------------------------------
 
   addMenu();
