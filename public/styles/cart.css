@@ -24,9 +24,9 @@ h1, #food, #quantity, #total, #Pay {
 
 
 #total {
-color: #244751;
-font-size: x-large;
-font-weight: bold;
+  color: #244751;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 .paynow {

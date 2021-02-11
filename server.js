@@ -144,7 +144,7 @@ app.get('/order', (req, res) => {
 }
 )
 
-app.post('/order', (req, res) => {
+app.post('/admin/order', (req, res) => {
   if(req.body) {
     let rowID = req.body
     rowID = Object.keys(rowID)

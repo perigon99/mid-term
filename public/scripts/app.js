@@ -5,8 +5,8 @@ $(document).ready(function() {
     let $conditionalRendering = "";
     if (!userObject) {
       $conditionalRendering = `
-        <button class="modal-open bg-transparent w-36 border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold m-2 rounded-full" id="login-button">Log in</button>
-        <button class="bg-transparent border w-36 border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold m-2 rounded-full hidden" id="logout-button" >Log out</button>
+        <button class="modal-open bg-transparent w-32 border border-gray-300 hover:border-indigo-500 text-gray-300 hover:text-indigo-500 font-bold m-8 rounded-full" id="login-button">Log in</button>
+        <button class="bg-transparent border w-32 border-gray-300 hover:border-indigo-500 text-gray-300 hover:text-indigo-500 font-bold m-8 rounded-full hidden" id="logout-button" >Log out</button>
       `;
     } else  {
       $conditionalRendering = `
@@ -32,7 +32,6 @@ $(document).ready(function() {
           toggleModal();
           const loginButton = document.getElementById("login-button");
           const logoutButton = document.getElementById("logout-button");
-
           loginButton.style.display = "none";
           logoutButton.style.display = "block";
           $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`);
@@ -48,6 +47,7 @@ $(document).ready(function() {
   });
 
   //--------------------------------Modal Form Popup on Clicking Login ------------------------------------------------
+
   const openUserLoginForm = function() {
     let openmodal = document.querySelectorAll('.modal-open');
     for (let i = 0; i < openmodal.length; i++) {
@@ -82,12 +82,14 @@ $(document).ready(function() {
       body.classList.toggle('modal-active');
     }
   };
+
   //--------------------------------Menu rendering---------------------------------------------------
+
   const entryHelper = function(rows) {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "entry") {
-        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer select-none" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -97,7 +99,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "main") {
-        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer select-none" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -107,7 +109,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "dessert") {
-        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer select-none" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -117,7 +119,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "wine") {
-        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer select-none" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -126,67 +128,66 @@ $(document).ready(function() {
   let menuItems;
 
   const renderMenu = function() {
-  //Insert menu conditional rendering here
-  //need ajax call to the backen to get menu information where is_active is true (Warning for now all menu element are false)
     $.get("/menu", function(data, status) {
       menuItems = data.data.rows;
       let $body = `
-    <div class="flex pt-5 z-0">
-      <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 border-double border-4 border-black menu-item">
-          <div class="flex pt-2">
-            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 ">
-              <div class="px-6 py-4">
-                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Entries</div>
-                <p class="text-gray-700 text-base">
-                  <ul class="menu-lists">
-                  ${entryHelper(menuItems)}
-                  </ul>
-                </p>
+        <div class="flex pt-5 z-0">
+          <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 border-double border-4 border-black menu-item">
+              <div class="flex pt-2">
+                <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 ">
+                  <div class="px-6 py-4">
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Entries</div>
+                    <p class="text-gray-700 text-base">
+                      <ul class="menu-lists">
+                      ${entryHelper(menuItems)}
+                      </ul>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="flex pt-2">
-            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
-              <div class="px-6 py-4">
-                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main courses</div>
-                <p class="text-gray-700 text-base">
-                  <ul class="menu-lists">
-                  ${mainHelper(menuItems)}
-                  </ul>
-                </p>
+              <div class="flex pt-2">
+                <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
+                  <div class="px-6 py-4">
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main courses</div>
+                    <p class="text-gray-700 text-base">
+                      <ul class="menu-lists">
+                      ${mainHelper(menuItems)}
+                      </ul>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="flex pt-2">
-            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
-              <div class="px-6 py-4">
-                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">desserts</div>
-                <p class="text-gray-700 text-base">
-                  <ul class="menu-lists">
-                  ${dessertHelper(menuItems)}
-                  </ul>
-                </p>
+              <div class="flex pt-2">
+                <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
+                  <div class="px-6 py-4">
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">desserts</div>
+                    <p class="text-gray-700 text-base">
+                      <ul class="menu-lists">
+                      ${dessertHelper(menuItems)}
+                      </ul>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="flex pt-2">
-            <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
-              <div class="px-6 py-4">
-                <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Cellar</div>
-                <p class="text-gray-700 text-base">
-                  <ul class="menu-lists">
-                  ${cellarHelper(menuItems)}
-                  </ul>
-                </p>
+              <div class="flex pt-2">
+                <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
+                  <div class="px-6 py-4">
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Cellar</div>
+                    <p class="text-gray-700 text-base">
+                      <ul class="menu-lists">
+                      ${cellarHelper(menuItems)}
+                      </ul>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
-      </div>
-    </div>
-    `;
+        </div>
+      `;
       $(".bodyContent").prepend($body);
     });
   };
+
   //-------------------------------- Check Cart Rendering ---------------------------------------------------
 
   // Stretch: object => key = id , value = quantity : displaying the cart => lookup the key in this object => food item
@@ -211,13 +212,12 @@ $(document).ready(function() {
   };
 
   $(document).on("click", ".addCart", function(event) {
-
     let foodItemId = parseInt(event.target.id);
-
     let data = menuItems.filter(item => item.id === foodItemId);
     if (data) {
       cart.push(data[0]);
     }
+    $(this).css("color", "rgba(245, 158, 11)")
     // Remove this console log at end of project:
     console.log("Added to cart:" , cart);
   });
@@ -228,25 +228,17 @@ $(document).ready(function() {
       $("#form1").toggle();
       // Remove this console log at end of project:
       console.log("items in cart:", cart);
-
       let subtotalCounter = 0;
       let quantityCounter = 0;
-
       $("#food").empty();
-
       for (let row in cart) {
-
-        // console.log(cart[row]);
-        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-2 px-4 rounded" data-index="${row}"> Delete </button> </div> `);
-
+        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-1 px-1 rounded" data-index="${row}"> Delete </button> </div> `);
         subtotalCounter += cart[row].price;
         quantityCounter += 1;
       }
-
       $("#stotal").text(subtotalCounter);
       $("#sub-total").text(subtotalCounter);
       $("#quantity").text(`Total Quantity: ${quantityCounter}`);
-
       $("#Pay").click(function(event) {
         event.preventDefault();
         console.log("Final Order sent to backend:", cart);
@@ -255,18 +247,16 @@ $(document).ready(function() {
     });
 
     // ----------------------- Delete Rendering for Check Cart --------------------------
+
     $("body").on("click", ".delete", function(event) {
-
       event.preventDefault();
-
       cart.splice($(event.target).data("index"), 1);
-
       $(event.target).parent().remove();
     });
-
   });
 
   //--------------------------------Logout rendering----------------------------------------------
+
   $(document).ready(function() {
     const logoutButton = document.getElementById("logout-button");
     $(logoutButton).on('click', function() {
@@ -299,6 +289,7 @@ $(document).ready(function() {
   openUserLoginForm();
   renderMenu();
   scrollToBottom();
+
 });
 
 //--------------------------------Used to render the modal form ----------------------------------------------
