@@ -12,11 +12,12 @@ var twilioNumber = '+12247013494'
 
 //the customer will be a boolean, to check if we're sending a text to customer or restaurant
 const sendText = function(msg, number, timeToSend, orderId, customer) {
+  console.log("anything")
   if (customer) {
     setTimeout(function() {
       return client.messages.create({
         body: `${msg} : ${orderId}`,
-        to: '+16475153366',  // Text this number
+        to: '+16479385595',  // Text this number
         from: number // From a valid Twilio number
     })
     .then((message) => console.log(message.sid));
@@ -27,7 +28,7 @@ const sendText = function(msg, number, timeToSend, orderId, customer) {
     setTimeout(function() {
       return client.messages.create({
         body: `${msg} : ${orderId}`,
-        to: '+16475153366',  // Text this number
+        to: '+16479385595',  // Text this number
         from: number // From a valid Twilio number
     })
     .then((message) => console.log(message.sid));
