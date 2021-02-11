@@ -23,7 +23,7 @@ $(document).ready(function() {
             </button>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <button onclick="orderCompleted(${row.id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <button onclick="orderCompleted(${row.order_id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
               Remove from queue
             </button>
           </td>
@@ -43,9 +43,9 @@ $(document).ready(function() {
     $.get("/admin/order", function(data, status) {
       const orderItems = data.data.rows;
       let $body = `
-      <div class="flex flex-col pt-5">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="flex flex-col pt-5 center-table">
+        <div class="">
+          <div class="py-2 align-middle inline-block w-4/5 sm:px-6 lg:px-8">
             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -224,7 +224,7 @@ window.renderEditMenu = function() {
     menuItems = data.data.rows
   const $body = `
     <div class="flex flex-col pt-5 pl-5 pr-5 rounded">
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="center-table">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
