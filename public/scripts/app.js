@@ -5,8 +5,8 @@ $(document).ready(function() {
     let $conditionalRendering = "";
     if (!userObject) {
       $conditionalRendering = `
-        <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full" id="login-button">Log in</button>
-        <button class="bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full hidden" id="logout-button" >Log out</button>
+        <button class="modal-open bg-transparent w-36 border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold m-2 rounded-full" id="login-button">Log in</button>
+        <button class="bg-transparent border w-36 border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold m-2 rounded-full hidden" id="logout-button" >Log out</button>
       `;
     } else  {
       $conditionalRendering = `
@@ -87,7 +87,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "entry") {
-        menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -97,7 +97,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "main") {
-        menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -107,7 +107,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "dessert") {
-        menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -117,7 +117,7 @@ $(document).ready(function() {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "wine") {
-        menuEntries += `<li class="addCart" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
+        menuEntries += `<li class="addCart cursor-pointer" id="${row.id}">${row.name} ----- ${row.price} $</li>`;
       }
     }
     return menuEntries;
@@ -237,7 +237,7 @@ $(document).ready(function() {
       for (let row in cart) {
 
         // console.log(cart[row]);
-        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-index="${row}"> Delete </button> </div> `);
+        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-2 px-4 rounded" data-index="${row}"> Delete </button> </div> `);
 
         subtotalCounter += cart[row].price;
         quantityCounter += 1;
@@ -288,11 +288,17 @@ $(document).ready(function() {
       });
     });
   });
+  window.scrollToBottom = function() {
+    $("#formButton").click(function(){
+          $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+    })
+
+  }
 
   navbar();
   openUserLoginForm();
   renderMenu();
-
+  scrollToBottom();
 });
 
 //--------------------------------Used to render the modal form ----------------------------------------------
