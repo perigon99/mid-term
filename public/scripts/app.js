@@ -248,6 +248,9 @@ $(document).ready(function() {
         $("#food").empty();
         $("#quantity").empty();
         $("#total").empty();
+
+       document.getElementById("orderStatus").innerHTML = "Order Status: Waiting to be Cooked"
+
         console.log("Final Order sent to backend:", cart);
         createOrder(cart);
       })
