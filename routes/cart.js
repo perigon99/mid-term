@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 const {getUserFromCookie, NewOrderId, addItemToContent} = require('../server/database');
 const {sendText} = require('../api/twilio')
-var twilioNumber = '+16479385595'
+var twilioNumber = '+12247013494'
 
 
 module.exports = (db) => {
