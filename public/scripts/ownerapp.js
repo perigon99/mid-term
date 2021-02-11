@@ -13,7 +13,7 @@ $(document).ready(function() {
       time = time.substr(11, 5);
       menuEntries += `
       <tr id="picked:${row.id}">
-      <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
+      <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.order_id}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
       <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
@@ -87,11 +87,7 @@ $(document).ready(function() {
       $(".owner-body").prepend($body);
     });
   };
-  $(function() {
-    $("li").on("click",function(event) {
-      console.log("I clicked this shit");
-    });
-  });
+
 //--------------------------------Add items to the menu feature--------------------------------------------------
 
 window.submitNewItem = function() {

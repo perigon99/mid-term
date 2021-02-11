@@ -90,6 +90,11 @@ const clearTable = function() {
 };
 
 const smsID = function(telephone, id) {
+  $.ajax({
+    url: `/owner/sms/${id}`,
+    method: 'POST',
+    data: telephone.toString()
+  })
 
   $(`#ready:${id}`).css("background-color","gray")
   console.log(telephone);
