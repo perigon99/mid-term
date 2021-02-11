@@ -15,6 +15,7 @@ h1, #food, #quantity, #total, #Pay {
   flex-direction: column;
   align-items: center;
   font-size: large;
+
 }
 
 #title {
@@ -37,4 +38,8 @@ h1, #food, #quantity, #total, #Pay {
   text-align: -webkit-center;
 }
 
+#form1 {
+  color: #323dc1;
+  font-weight: bold;
+}
 

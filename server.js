@@ -133,7 +133,7 @@ app.get('/menu', (req, res) => {
 
 //-----------------------------------Owner side queries & routes ------------------------------
 
-app.get('/order', (req, res) => {
+app.get('/admin/order', (req, res) => {
   console.log("post request was succesful for orders");
   pool.query(`
   SELECT *, orders.id as order_id
@@ -181,14 +181,16 @@ app.post('/order/:id', (req, res) => {
   }
   })
 
-
-  app.post('/order/item/:id', (req, res) => {
+  app.get('/admin/order/:id', (req, res) => {
     if(req.body) {
       pool.query(`
-      DELETE FROM orders_content
-        WHERE id=$1;
+        select *, orders_id as orders_id, orders_content.id as target
+        from orders_content
+        join menu_items on menu_item_id = menu_items.id
+        where orders_id = $1
         `, [req.params.id])
       .then(function (data) {
+
         res.status(200)
           .json({
             status: 'success',
@@ -203,7 +205,22 @@ app.post('/order/:id', (req, res) => {
     }
     })
 
+  app.post('/order/item/:id', (req, res) => {
+    if(req.body) {
+      console.log(req.params.id)
+      pool.query(`
+      DELETE FROM orders_content
+        WHERE id=$1;
+        `, [req.params.id])
+      .then(function (data) {
+        res.status(200)
 
+      })
+      .catch(function (err) {
+        return console.log(err);
+      });
+    }
+    })
 app.post('/admin/order', (req, res) => {
   if(req.body) {
     let rowID = req.body
@@ -229,9 +246,8 @@ app.post('/admin/order', (req, res) => {
   }
   })
 
-  app.post('/menu/add', (req, res) => {
+  app.post('/admin/menu/add', (req, res) => {
     if(req.body) {
-
       const name = req.body.name;
       const price = req.body.price;
       const prep = req.body.prep;

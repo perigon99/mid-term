@@ -3,14 +3,15 @@ const orderIdHelper = function(rows) {
   for (let row of rows) {
     let time = row.order_time;
     time = time.substr(11, 5);
+    console.log("inside orderIdhelper function", row)
     menuEntries += `
-      <tr id="picked:${row.id}">
+      <tr id="picked:${row.order_id}">
         <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
         <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
         <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
         <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
         <td class="px-6 py-4 whitespace-nowrap">
-          <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button onclick="smsID(${row.telephone}, ${row.order_id})" id="ready:${row.order_id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             SMS
           </button>
         </td>
@@ -20,7 +21,7 @@ const orderIdHelper = function(rows) {
           </button>
         </td>
         <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="orderDetail(${row.id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        <button onclick="orderDetail(${row.order_id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
           Order Details
         </button>
         </td>
@@ -31,7 +32,7 @@ const orderIdHelper = function(rows) {
 };
 
 const renderOrders = function() {
-  $.get("http://localhost:8080/order", function(data, status) {
+  $.get("/admin/order", function(data, status) {
     const orderItems = data.data.rows;
     let $body = `
       <div class="flex flex-col pt-5">
@@ -134,6 +135,7 @@ const orderCompleted = function(id) {
 const detailHelper = function(rows) {
   let menuDetail = "";
   for (let row of rows) {
+console.log("inside or detail helper fuunction", row)
     menuDetail += `
       <tr ">
         <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.orders_id}</td>
@@ -157,9 +159,10 @@ const clearPopup = function() {
 
 const orderDetail = function(id) {
   if (id) {
+    console.log(id)
     $.ajax({
-      url: `/order/${id}`,
-      method: 'POST',
+      url: `/admin/order/${id}`,
+      method: 'GET',
       success: function(result) {
         $(document).ready(function() {
           const $popUp =`
@@ -213,6 +216,4 @@ const orderDetail = function(id) {
 
   }
 }
-
-
 
