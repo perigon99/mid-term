@@ -40,9 +40,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
 app.set("view engine", "ejs");
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -134,6 +132,7 @@ app.get('/menu', (req, res) => {
 )
 
 //-----------------------------------Owner side queries & routes ------------------------------
+
 app.get('/admin/order', (req, res) => {
   console.log("post request was succesful for orders");
   pool.query(`
@@ -158,24 +157,23 @@ app.get('/admin/order', (req, res) => {
 }
 )
 
-app.post('/admin/order', (req, res) => {
+
+app.post('/order/:id', (req, res) => {
   if(req.body) {
-    let rowID = req.body
-    rowID = Object.keys(rowID)
-    rowID = Number(rowID)
-    console.log("post request was succesful for orders", rowID);
     pool.query(`
-    UPDATE orders
-    SET is_pickedup = true
-    WHERE id = $1;
-    `, [rowID])
+      select *, orders_content.id as target
+      from orders_content
+      join menu_items on menu_item_id = menu_items.id
+      where orders_id = $1
+      `, [req.params.id])
     .then(function (data) {
       res.status(200)
         .json({
           status: 'success',
-          data: data,
+          data: data.rows,
           message: 'post request comming trougth'
         });
+        console.log(data.rows)
     })
     .catch(function (err) {
       return console.log(err);
@@ -223,6 +221,30 @@ app.post('/admin/order', (req, res) => {
       });
     }
     })
+app.post('/admin/order', (req, res) => {
+  if(req.body) {
+    let rowID = req.body
+    rowID = Object.keys(rowID)
+    rowID = Number(rowID)
+    console.log("post request was succesful for orders", rowID);
+    pool.query(`
+    UPDATE orders
+    SET is_pickedup = true
+    WHERE id = $1;
+    `, [rowID])
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'post request comming trougth'
+        });
+    })
+    .catch(function (err) {
+      return console.log(err);
+    });
+  }
+  })
 
   app.post('/admin/menu/add', (req, res) => {
     if(req.body) {
@@ -280,6 +302,7 @@ app.post('/admin/order', (req, res) => {
       });
     }
     })
+
     app.post('/menu/disable/:id', (req, res) => {
 
       if(req.params) {
@@ -296,9 +319,6 @@ app.post('/admin/order', (req, res) => {
         });
       }
       })
-
-
-
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

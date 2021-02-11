@@ -19,7 +19,7 @@ module.exports = (db) => {
           res.json({result:false});
         }
       })
-      .catch(err => console.log('error', err.stack))
+      .catch(err => res.json({result:false}));
   });
   return router;
 };
