@@ -13,3 +13,9 @@ div {
   display:none;
 
   }
+
+footer {
+  position: fixed;
+  bottom: 1rem;
+  width: 75vw;
+}

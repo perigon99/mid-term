@@ -237,7 +237,7 @@ $(document).ready(function() {
       for (let row in cart) {
 
         // console.log(cart[row]);
-        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete" data-index="${row}"> Delete </button> </div> `);
+        $("#food").append(`<div>${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-index="${row}"> Delete </button> </div> `);
 
         subtotalCounter += cart[row].price;
         quantityCounter += 1;
