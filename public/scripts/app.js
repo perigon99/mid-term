@@ -118,7 +118,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 ">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Entries</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Apéritif</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${entryHelper(menuItems)}
@@ -130,7 +130,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main courses</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main Courses</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${mainHelper(menuItems)}
@@ -142,7 +142,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">desserts</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Desserts</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${dessertHelper(menuItems)}

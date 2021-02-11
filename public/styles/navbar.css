@@ -1,4 +1,16 @@
 #logo {
- height: auto;
+ height: 79px;
  width: auto;
+}
+
+#navbar {
+  height: 80px;
+}
+
+p {
+  color: white;
+  font-weight: normal;
+  border-top-width: 0px;
+  padding-top: 1em;
+  font-size: x-large;
 }
