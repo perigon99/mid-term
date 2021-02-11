@@ -57,7 +57,6 @@ const cartRoutes = require("./routes/cart")
 const loginRoutes = require("./routes/login");
 const logoutRoutes = require("./routes/logout")
 const adminsmsRoutes =require("./routes/admin")
-const orderRoutes = require("./routes/order")
 
 const { response } = require('express');
 // Mount all resource routes
@@ -66,7 +65,6 @@ app.use("/login", loginRoutes(db));
 app.use("/logout", logoutRoutes(db));
 app.use("/cart", cartRoutes(db));
 app.use("/owner/sms/:id", adminsmsRoutes(db));
-app.use("/order", orderRoutes(db));
 
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
@@ -134,6 +132,77 @@ app.get('/menu', (req, res) => {
 )
 
 //-----------------------------------Owner side queries & routes ------------------------------
+
+app.get('/order', (req, res) => {
+  console.log("post request was succesful for orders");
+  pool.query(`
+  SELECT *, orders.id as order_id
+  FROM orders
+  JOIN users ON users_id = users.id
+  where orders.is_pickedup = false
+  GROUP BY orders.id, users.id
+  ORDER BY orders.id desc
+  `)
+  .then(function (data) {
+    res.status(200)
+      .json({
+        status: 'success',
+        data: data,
+        message: 'Retrieved ALL menu items'
+      });
+  })
+  .catch(function (err) {
+    return console.log(err);
+  });
+}
+)
+
+
+app.post('/order/:id', (req, res) => {
+  if(req.body) {
+    pool.query(`
+      select *, orders_content.id as target
+      from orders_content
+      join menu_items on menu_item_id = menu_items.id
+      where orders_id = $1
+      `, [req.params.id])
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data.rows,
+          message: 'post request comming trougth'
+        });
+        console.log(data.rows)
+    })
+    .catch(function (err) {
+      return console.log(err);
+    });
+  }
+  })
+
+
+  app.post('/order/item/:id', (req, res) => {
+    if(req.body) {
+      pool.query(`
+      DELETE FROM orders_content
+        WHERE id=$1;
+        `, [req.params.id])
+      .then(function (data) {
+        res.status(200)
+          .json({
+            status: 'success',
+            data: data.rows,
+            message: 'post request comming trougth'
+          });
+          console.log(data.rows)
+      })
+      .catch(function (err) {
+        return console.log(err);
+      });
+    }
+    })
+
 
 app.post('/admin/order', (req, res) => {
   if(req.body) {
