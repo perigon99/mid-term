@@ -188,3 +188,28 @@ const getUserFromCookie = (id) => {
 
 };
 exports.getUserFromCookie = getUserFromCookie;
+
+const getPrepTime = (name) => {
+  let prep_time = 0
+  queryString = `
+  SELECT prep_time
+  from menu_items
+  WHERE name = $1;
+  `
+  queryParams = [key];
+  return pool.query(queryString, queryParams)
+  .then(result => {
+    let prepTime = result.rows[0]["prep_time"]
+    console.log("result:", prepTime)
+    if (prepTime > prep_time) {
+      prep_time = prepTime;
+      console.log("result 2:", prep_time)
+      return prep_time * 200
+    }
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}
+
+exports.getPrepTime = getPrepTime;

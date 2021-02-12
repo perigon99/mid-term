@@ -16,7 +16,8 @@ db.connect((err) => {
   if (err) throw new Error(err);
   console.log('connected!');
 });
-const { NewOrderId, getUserFromCookie, addItemToContent} = require('./server/database');
+
+const { NewOrderId, getUserFromCookie, addItemToContent , getPrepTime } = require('./server/database');
 
 const pool = new Pool({
   user: 'labber',
@@ -220,6 +221,16 @@ app.post('/order/:id', (req, res) => {
         return console.log(err);
       });
     }
+    })
+
+    app.put('/order/status', (req, res) => {
+      for (key in req.body) {
+        console.log("key:", key)
+        getPrepTime(key)
+          .then(function (data) {
+            res.json({time: data})
+          })
+      }
     })
 app.post('/admin/order', (req, res) => {
   if(req.body) {

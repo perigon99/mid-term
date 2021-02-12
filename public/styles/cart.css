@@ -43,3 +43,7 @@ h1, #food, #quantity, #total, #Pay {
   font-weight: bold;
 }
 
+#food {
+  color: black;
+  font-weight: bold;
+}

@@ -13,10 +13,11 @@ $(document).ready(function() {
         if (result.name) {
           alert("The user is authenticated");
           toggleModal();
+          const loginButton = document.getElementById("login-button");
+          const logoutButton = document.getElementById("logout-button");
+          loginButton.style.display = "none";
+          logoutButton.style.display = "block";
           $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`);
-          setTimeout(function(){// wait for 5 secs(2)
-            location.reload(); // then reload the page.(3)
-       }, 100);
         } else {
           //user is not authenticated
           alert("user / password is not correct");
@@ -118,7 +119,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 ">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Apéritif</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Entries</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${entryHelper(menuItems)}
@@ -130,7 +131,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main Courses</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Main courses</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${mainHelper(menuItems)}
@@ -142,7 +143,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">Desserts</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider">desserts</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${dessertHelper(menuItems)}
@@ -185,6 +186,7 @@ $(document).ready(function() {
         data: JSON.stringify(cart),
         success: function(result) {
           console.log(result);
+
         },
         error: function(error) {
           console.log(error);
@@ -195,7 +197,6 @@ $(document).ready(function() {
 
 
   let quantityCounter = 0;
-  // let subtotalCounter = 0;
 
   $(document).on("click", ".addCart", function(event) {
     let foodItemId = parseInt(event.target.id);
@@ -215,76 +216,45 @@ $(document).ready(function() {
     for (let row in cart) {
       $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-0 px-1 rounded" data-index="${row}">X</button> </div> `);
       subtotalCounter += cart[row].price;
-      // quantityCounter += 1;
+
       $("#stotal").text(subtotalCounter);
       $("#sub-total").text(subtotalCounter);
       $("#quantity").text(`Total Quantity: ${quantityCounter}`);
     }
-
-    // $("#stotal").text(subtotalCounter);
-    // $("#sub-total").text(subtotalCounter);
-    // $("#quantity").text(`Total Quantity: ${quantityCounter}`);
 
     $("#Pay").click(function(event) {
         event.preventDefault();
         $("#food").empty();
         $("#quantity").empty();
         $("#total").empty();
+        $("#stotal").empty();
 
        document.getElementById("orderStatus").innerHTML = "Order Status: Waiting to be Cooked"
 
-        console.log("Final Order sent to backend:", cart);
-        createOrder(cart);
+       console.log("Final Order sent to backend:", cart);
+       createOrder(cart);
+
+        $.ajax({
+          url: `/order/status`,
+          method: 'PUT',
+          data: cart,
+          success: function (result) {
+            setTimeout(function() {
+            document.getElementById("orderStatus").innerHTML = "Order Status: Ready to be picked up!"
+            $("#orderStatus").css("color", "rgb(16, 185, 129)")
+          }, result.time);
+
+        }})
+
       })
 
 });
 
-  // let quantityCounter = 0;
-  // let subtotalCounter = 0;
-
   $(document).ready(function() {
     $("#formButton").click(function() {
       $("#form1").toggle();
-      // Remove this console log at end of project:
-      // console.log("items in cart:", cart);
-      // let subtotalCounter = 0;
-
-      // $("#food").empty();
-      // for (let row in cart) {
-      //   $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-0 px-1 rounded" data-index="${row}">X</button> </div> `);
-      //   subtotalCounter += cart[row].price;
-      //   quantityCounter += 1;
-      // }
-      // $("#stotal").text(subtotalCounter);
-      // $("#sub-total").text(subtotalCounter);
-      // $("#quantity").text(`Total Quantity: ${quantityCounter}`);
-      // $("#Pay").click(function(event) {
-      //   event.preventDefault();
-      //   console.log("Final Order sent to backend:", cart);
-      //   createOrder(cart);
       });
     });
-
-
-
-  // $(document).on('click', '.addCart', function(e) {
-
-  //   let subtotalCounter = 0;
-
-  //   $("#food").empty();
-
-  //   for (let row in cart) {
-  //     $("#food").append(`<div id="color-change${row}">${cart[row].name} - $${cart[row].price} <button class="delete bg-red-500 hover:bg-red-700 mt-1 text-white font-bold py-0 px-1 rounded" data-index="${row}">X</button> </div> `);
-  //     subtotalCounter += cart[row].price;
-  //     quantityCounter += 1;
-
-  //     $("#stotal").text(subtotalCounter);
-  //     $("#sub-total").text(subtotalCounter);
-  //     $("#quantity").text(`Total Quantity: ${quantityCounter}`);
-  // }
-
-// });
-
 
     // ----------------------- Delete Rendering for Check Cart --------------------------
 
@@ -323,7 +293,11 @@ $(document).ready(function() {
           console.log(result);
           if (result) {
             console.log(result);
-            location.reload();
+            const loginButton = document.getElementById("login-button");
+            const logoutButton = document.getElementById("logout-button");
+            $(".welcome-message").empty();
+            loginButton.style.display = "block";
+            logoutButton.style.display = "none";
           }
         }
       });
