@@ -5,28 +5,28 @@ const orderIdHelper = function(rows) {
     time = time.substr(11, 5);
     console.log("inside orderIdhelper function", row)
     menuEntries += `
-      <tr id="picked:${row.order_id}">
-        <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.id}</td>
-        <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
-        <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
-        <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <button onclick="smsID(${row.telephone}, ${row.order_id})" id="ready:${row.order_id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            SMS
+        <tr id="picked:${row.id}">
+          <td class="px-6 py-4 text-center whitespace-nowrap"> ${row.order_id}</td>
+          <td class="px-6 py-4 whitespace-nowrap"> ${row.name}</td>
+          <td class="px-6 py-4 whitespace-nowrap"> ${row.email}</td>
+          <td class="px-6 py-4 whitespace-nowrap"> ${time}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <button onclick="smsID(${row.telephone}, ${row.id})" id="ready:${row.id}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              SMS
+            </button>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <button onclick="orderCompleted(${row.order_id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              Remove from queue
+            </button>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+          <button onclick="orderDetail(${row.order_id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Order Details
           </button>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <button onclick="orderCompleted(${row.id})"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-            Remove from queue
-          </button>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap">
-        <button onclick="orderDetail(${row.order_id})"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Order Details
-        </button>
-        </td>
-      </tr>
-    `;
+          </td>
+        </tr>
+      `;
   }
   return menuEntries;
 };
@@ -36,10 +36,10 @@ const renderOrders = function() {
     const orderItems = data.data.rows;
     let $body = `
       <div class="flex flex-col pt-5">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="-my-2  sm:-mx-6 lg:-mx-8">
           <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <table class="min-w-full divide-y divide-gray-200">
+              <table class="min-w-full divide-y divide-gray-200 ">
                 <thead class="bg-gray-50">
                   <tr>
                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -166,14 +166,14 @@ const orderDetail = function(id) {
       success: function(result) {
         $(document).ready(function() {
           const $popUp =`
-          <div class="bg-white rounded md:w-2/3 w-full border shadow-lg">
+          <div class="bg-white rounded md:w-2/3 w-3/5 border shadow-lg">
             <div class="rounded-t bg-teal-500">
               <div class="relative py-3 px-2 flex">
              <span class="font-semibold text-white md:text-base text-sm">Popup Title</span>
             </div>
           </div>
           <div class="flex flex-col pt-5">
-          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="">
           <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200">
@@ -203,7 +203,7 @@ const orderDetail = function(id) {
             </div>
           </div>
           <div class="p-2 flex justify-end rounded-b">
-            <button class="focus:outline-none py-1 px-2 md:py-2 md:px-3 w-24 bg-red-700 hover:bg-red-600 text-white rounded" onclick="clearPopup()" >Apply and Close</button>
+            <button class="focus:outline-none py-1 mr-12 px-2 md:py-2 md:px-3 bg-green-700 hover:bg-green-600 text-white rounded" onclick="clearPopup()" >Apply and Close</button>
           </div>
         </div>`
         $(".popup").prepend($popUp);
