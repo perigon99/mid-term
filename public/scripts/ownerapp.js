@@ -303,19 +303,6 @@ window.renderEditMenu = function() {
       }
     })
   }
-  $(document).ready(function() {
-    const logoutButton = document.getElementById("button-logout");
-    $(logoutButton).on('click', function () {
-      $.ajax({
-        url: '/logout',
-        method: 'POST',
-        success: function(result) {
-          console.log(result);
-          location.reload();
-        }
-      })
-    })
-  })
 
 
   $(document).ready(function() {
