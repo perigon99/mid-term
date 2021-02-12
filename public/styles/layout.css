@@ -1,9 +1,11 @@
+/* background image */
 body {
   background-color: #080627;
   background-image: url("../images/resto09.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 
 body h1 {
   color: #244751;
