@@ -1,6 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
   //-------------------------------- Login Authentication: POST ------------------------------------------------
-  $('#login-form').submit(function(event) {
+  $('#login-form').submit(function (event) {
     event.preventDefault();
     const formContent = $(this).serialize();
     console.log(formContent);
@@ -8,22 +8,21 @@ $(document).ready(function() {
       url: `/login`,
       method: 'POST',
       data: formContent,
-      success: function(result) {
+      success: function (result) {
         console.log("everything went well. ", result);
         if (result.name) {
           alert("The user is authenticated");
           toggleModal();
-          const loginButton = document.getElementById("login-button");
-          const logoutButton = document.getElementById("logout-button");
-          loginButton.style.display = "none";
-          logoutButton.style.display = "block";
-          $("#navbar").prepend(`<div class="welcome-message">Welcome: ${result.name}</div>`);
+
+          setTimeout(function () {// wait for 5 secs(2)
+            location.reload(); // then reload the page.(3)
+          }, 100);
         } else {
           //user is not authenticated
           alert("user / password is not correct");
         }
       },
-      error: function(error) {
+      error: function (error) {
         console.log(error);
       }
     });
@@ -31,10 +30,10 @@ $(document).ready(function() {
 
   //--------------------------------Modal Form Popup on Clicking Login ------------------------------------------------
 
-  const openUserLoginForm = function() {
+  const openUserLoginForm = function () {
     let openmodal = document.querySelectorAll('.modal-open');
     for (let i = 0; i < openmodal.length; i++) {
-      openmodal[i].addEventListener('click', function(event) {
+      openmodal[i].addEventListener('click', function (event) {
         event.preventDefault();
         toggleModal();
       });
@@ -45,7 +44,7 @@ $(document).ready(function() {
     for (let i = 0; i < closemodal.length; i++) {
       closemodal[i].addEventListener('click', toggleModal);
     }
-    document.onkeydown = function(evt) {
+    document.onkeydown = function (evt) {
       evt = evt || window.event;
       let isEscape = false;
       if ("key" in evt) {
@@ -68,7 +67,7 @@ $(document).ready(function() {
 
   //--------------------------------Menu rendering---------------------------------------------------
 
-  const entryHelper = function(rows) {
+  const entryHelper = function (rows) {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "entry") {
@@ -78,7 +77,7 @@ $(document).ready(function() {
     return menuEntries;
   };
 
-  const mainHelper = function(rows) {
+  const mainHelper = function (rows) {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "main") {
@@ -88,7 +87,7 @@ $(document).ready(function() {
     return menuEntries;
   };
 
-  const dessertHelper = function(rows) {
+  const dessertHelper = function (rows) {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "dessert") {
@@ -98,7 +97,7 @@ $(document).ready(function() {
     return menuEntries;
   };
 
-  const cellarHelper = function(rows) {
+  const cellarHelper = function (rows) {
     let menuEntries = "";
     for (let row of rows) {
       if (row.type_plate === "wine") {
@@ -110,8 +109,8 @@ $(document).ready(function() {
 
   let menuItems;
 
-  const renderMenu = function() {
-    $.get("/menu", function(data, status) {
+  const renderMenu = function () {
+    $.get("/menu", function (data, status) {
       menuItems = data.data.rows;
       let $body = `
         <div class="flex pt-5 z-0">
@@ -119,7 +118,7 @@ $(document).ready(function() {
               <div class="flex pt-2">
                 <div class="max-w-7xl mx-auto rounded overflow-hidden shadow-lg flex-1 ">
                   <div class="px-6 py-4">
-                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Entries</div>
+                    <div class="mb-2 text-center font-serif font-black text-4xl tracking-wider menu-category">Apéritif</div>
                     <p class="text-gray-700 text-base">
                       <ul class="menu-lists">
                       ${entryHelper(menuItems)}
@@ -176,7 +175,7 @@ $(document).ready(function() {
   // Stretch: object => key = id , value = quantity : displaying the cart => lookup the key in this object => food item
   const cart = [];
 
-  const createOrder = function(cart) {
+  const createOrder = function (cart) {
     if (cart) {
       console.log(cart);
       $.ajax({
@@ -184,11 +183,11 @@ $(document).ready(function() {
         method: 'POST',
         contentType: "application/json",
         data: JSON.stringify(cart),
-        success: function(result) {
+        success: function (result) {
           console.log(result);
 
         },
-        error: function(error) {
+        error: function (error) {
           console.log(error);
         }
       });
@@ -198,7 +197,7 @@ $(document).ready(function() {
 
   let quantityCounter = 0;
 
-  $(document).on("click", ".addCart", function(event) {
+  $(document).on("click", ".addCart", function (event) {
     let foodItemId = parseInt(event.target.id);
     let data = menuItems.filter(item => item.id === foodItemId);
     if (data) {
@@ -206,7 +205,7 @@ $(document).ready(function() {
     }
     $(this).css("color", "rgba(245, 158, 11)")
     // Remove this console log at end of project:
-    console.log("Added to cart:" , cart);
+    console.log("Added to cart:", cart);
 
     let subtotalCounter = 0;
     quantityCounter += 1;
@@ -222,90 +221,87 @@ $(document).ready(function() {
       $("#quantity").text(`Total Quantity: ${quantityCounter}`);
     }
 
-    $("#Pay").click(function(event) {
-        event.preventDefault();
-        $("#food").empty();
-        $("#quantity").empty();
-        $("#total").empty();
-        $("#stotal").empty();
+    $("#Pay").click(function (event) {
+      event.preventDefault();
+      $("#food").empty();
+      $("#quantity").empty();
+      $("#total").empty();
+      $("#stotal").empty();
 
-       document.getElementById("orderStatus").innerHTML = "Order Status: Waiting to be Cooked"
+      document.getElementById("orderStatus").innerHTML = "Order Status: Waiting to be Cooked"
 
-       console.log("Final Order sent to backend:", cart);
-       createOrder(cart);
+      console.log("Final Order sent to backend:", cart);
+      createOrder(cart);
 
-        $.ajax({
-          url: `/order/status`,
-          method: 'PUT',
-          data: cart,
-          success: function (result) {
-            setTimeout(function() {
+      $.ajax({
+        url: `/order/status`,
+        method: 'PUT',
+        data: cart,
+        success: function (result) {
+          setTimeout(function () {
             document.getElementById("orderStatus").innerHTML = "Order Status: Ready to be picked up!"
             $("#orderStatus").css("color", "rgb(16, 185, 129)")
           }, result.time);
 
-        }})
-
+        }
       })
 
-});
+    })
 
-  $(document).ready(function() {
-    $("#formButton").click(function() {
+  });
+
+  $(document).ready(function () {
+    $("#formButton").click(function () {
       $("#form1").toggle();
-      });
     });
+  });
 
-    // ----------------------- Delete Rendering for Check Cart --------------------------
+  // ----------------------- Delete Rendering for Check Cart --------------------------
 
-    $("body").on("click", ".delete", function(event) {
-      event.preventDefault();
+  $("body").on("click", ".delete", function (event) {
+    event.preventDefault();
 
-      // to do , change menu item to color black on click of delete
-      $(".addCart").css("color", "black")
-      const $parent = $(this).parent();
+    // to do , change menu item to color black on click of delete
+    $(".addCart").css("color", "black")
+    const $parent = $(this).parent();
 
-      const siblingPriceString = $parent.html().split("\$")[1].split("\<")[0];
-      const itemPrice = parseInt(siblingPriceString);
+    const siblingPriceString = $parent.html().split("\$")[1].split("\<")[0];
+    const itemPrice = parseInt(siblingPriceString);
 
-      const subTotal = parseInt(getSubtotal());
+    const subTotal = parseInt(getSubtotal());
 
-      $("#quantity").text(`Total Quantity: ${cart.length - 1}`);
-      $("#stotal").text(subTotal - itemPrice);
-      $("#sub-total").text(getSubtotal());
+    $("#quantity").text(`Total Quantity: ${cart.length - 1}`);
+    $("#stotal").text(subTotal - itemPrice);
+    $("#sub-total").text(getSubtotal());
 
 
-      $(event.target).parent().remove();
-      cart.splice($(event.target).data("index"), 1);
-    });
+    $(event.target).parent().remove();
+    cart.splice($(event.target).data("index"), 1);
+  });
 
 
   //--------------------------------Logout rendering----------------------------------------------
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     const logoutButton = document.getElementById("logout-button");
-    $(logoutButton).on('click', function() {
+    $(logoutButton).on('click', function () {
       alert("Handle for logout called");
       $.ajax({
         url: `/logout`,
         method: 'POST',
-        success: function(result) {
+        success: function (result) {
           console.log(result);
           if (result) {
             console.log(result);
-            const loginButton = document.getElementById("login-button");
-            const logoutButton = document.getElementById("logout-button");
-            $(".welcome-message").empty();
-            loginButton.style.display = "block";
-            logoutButton.style.display = "none";
+            location.reload();
           }
         }
       });
     });
   });
-  window.scrollToBottom = function() {
-    $("#formButton").click(function(){
-          $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+  window.scrollToBottom = function () {
+    $("#formButton").click(function () {
+      $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
     })
 
   }
